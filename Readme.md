@@ -1,4 +1,4 @@
-### Whats is thes repo about? 
+## Whats is thes repo about? 
 
  This will be an monorepo to keep the nubank-ecosistem-clone.
 it will note be the real copy of its econsystem, only what i thinks it is.
