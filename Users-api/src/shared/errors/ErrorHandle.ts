@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import AppError from './AppErrors';
 
 const ErrorHandler = function(err: Error, _: Request, response: Response, __: NextFunction) {
+  console.log(err)
   if(err instanceof AppError) 
     return response.status(err.statusCode).json({
       status: 'error',
