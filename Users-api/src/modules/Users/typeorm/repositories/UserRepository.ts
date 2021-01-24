@@ -1,3 +1,4 @@
+import IUserUpdateDTO from '@modules/Users/dtos/IUserUpdateDTO';
 import { getRepository, Repository } from 'typeorm';
 
 import IUserRepository from '../../../Users/Repositories/IUserRepository'
@@ -10,6 +11,10 @@ class UsersRepository implements IUserRepository {
 
   constructor() {
     this.ormRepository = getRepository(User);
+  }
+  async update(user: User): Promise<User> {
+    const updatedUser = await this.ormRepository.save(user);
+    return updatedUser;
   }
 
   async create({ name, email, password }: IUserDTO): Promise<User> {

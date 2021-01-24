@@ -27,13 +27,11 @@ class UpdateUserService {
     if(existingEmail) throw new AppError('Email already taken')
     let hashedPassword = password && await this.hashProvider.generateHash(password);
     
-    const userUpdate = {
-     id: existingUser.id,
-     name: name || existingUser.name,
-     email: email || existingUser.email,
-     password: hashedPassword || existingUser.password,
-   }
-   const user = await this.usersRepository.update(userUpdate);
+     existingUser.name = name || existingUser.name
+     existingUser.email =  email || existingUser.email
+     existingUser.password = hashedPassword || existingUser.password
+   
+   const user = await this.usersRepository.update(existingUser);
   
    return user;
   }
