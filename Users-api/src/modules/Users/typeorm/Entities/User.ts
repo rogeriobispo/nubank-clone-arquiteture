@@ -13,6 +13,9 @@ class User {
 
   @Column('varchar')
   password!: string;
+
+  @Column('boolean')
+  active: boolean;
 }
 
 export default User;

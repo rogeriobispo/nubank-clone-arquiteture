@@ -29,6 +29,11 @@ export class CreateUsers1608991091269 implements MigrationInterface {
               type: 'varchar',
               isNullable: false,
             },
+            {
+              name: 'active',
+              type: 'boolean',
+              default: false,
+            },
           ]
         })
       );

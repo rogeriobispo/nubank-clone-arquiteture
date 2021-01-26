@@ -9,11 +9,17 @@ const ErrorHandler = function(err: Error, _: Request, response: Response, __: Ne
       message: err.message,
     });
 
-    return response.status(500).json({
+  if(err instanceof SyntaxError && 'body' in err){
+    return response.status(422).json({
+      status: 'error',
+      message: 'Body parse failed',
+    })
+  }
+  
+  return response.status(500).json({
       status: 'error',
       message: 'Internal Server Error',
     })
 }
-
 
 export default ErrorHandler;
