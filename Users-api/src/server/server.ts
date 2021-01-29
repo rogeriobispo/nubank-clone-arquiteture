@@ -1,7 +1,8 @@
 import ErrorHandler from '../shared/errors/ErrorHandle';
+import { ServerConfigs } from '../shared/config'
 import app from './app'
 
 app.use(ErrorHandler);
-app.listen(3000, () => {
-  console.log('Listening on port 3000');
+app.listen(ServerConfigs.port, () => {
+  console.log(`Listening on port ${ServerConfigs.port} env: ${ServerConfigs.env}`);
 });

@@ -5,13 +5,15 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "server": "ts-node-dev --ignore-watch node_modules src/server/server.ts",
+    "server-dev": "NODE_ENV=development ts-node-dev --ignore-watch node_modules src/server/server.ts",
+    "server-prod": "NODE_ENV=production ts-node-dev --ignore-watch node_modules src/server/server.ts",
     "debug": "ts-node-dev --ignore-watch node_modules src/server/server.ts --inspect",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "pg": "^8.5.1",

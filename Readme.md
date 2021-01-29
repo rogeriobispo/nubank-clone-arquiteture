@@ -1,4 +1,4 @@
-## Whats is thes repo about? 
+## Whats is thes repo about?
 
  This will be an monorepo to keep the nubank-ecosistem-clone.
 it will note be the real copy of its econsystem, only what i thinks it is.
@@ -11,7 +11,7 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 * kubernets
 * rabbitmq
 * kafka
-* react 
+* react
 * react native
 
 ## patterns and architecture
@@ -35,8 +35,11 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 
 ## Motivation
 
-Chalenge myself to create a big arquiteture and learn from it, improve skils from it. 
+Chalenge myself to create a big arquiteture and learn from it, improve skils from it.
 
-
+## Users Api
+    # create new Enviroment
+    * create script on packagejson
+    * clone the env.sample with the new name example('.env.stage')
 
 
