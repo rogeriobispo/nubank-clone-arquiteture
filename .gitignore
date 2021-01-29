@@ -2,3 +2,7 @@ Users-api/node_modules
 Users-api/build
 Users-api/ormconfig.json
 Users-api/coverage
+Users-api/env/*
+
+# exception files
+!Users-api/env/.env.sample
