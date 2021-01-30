@@ -59,7 +59,7 @@ describe('CreateUserService', () => {
       expect(user.password).toEqual(`hashed:password`);
     });
 
-    it('should send message to broke with event user created', async () => {
+    it('should send message to broker with event user created', async () => {
       const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
       const user = await createUser.perform({
         name: 'JohnDoe3',
@@ -70,7 +70,11 @@ describe('CreateUserService', () => {
       expect(brokerSpy).toHaveBeenCalledTimes(1);
       expect(brokerSpy).toHaveBeenCalledWith(
         'USER_API_USER_CREATED',
-        JSON.stringify(user)
+        JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        })
       );
     });
   });

@@ -2,7 +2,7 @@ import Amqp from 'amqplib';
 import { RabbitMQConfig } from '../../../../config';
 import IMessageBroker from '../models/IMessageBrocker';
 
-class RabbitMQConnection implements IMessageBroker {
+class RabbitMQ implements IMessageBroker {
   private connection;
 
   constructor() {
@@ -36,6 +36,5 @@ class RabbitMQConnection implements IMessageBroker {
       .then((channel) => channel);
   }
 }
-const rabbitMQConnection = new RabbitMQConnection();
 
-export default rabbitMQConnection;
+export default RabbitMQ;

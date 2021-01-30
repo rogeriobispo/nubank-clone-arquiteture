@@ -33,7 +33,11 @@ class CreateUserService {
 
     this.messageBroker.publish(
       RabbitMQExchange.userCreatedExchange,
-      JSON.stringify(user)
+      JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      })
     );
 
     return user;

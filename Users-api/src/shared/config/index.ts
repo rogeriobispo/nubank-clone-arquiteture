@@ -22,6 +22,7 @@ const RabbitMQConfig = {
 
 const RabbitMQExchange = {
   userCreatedExchange: String(process.env.USER_CREATE_EXCHANGE),
+  userUpdatedExchange: String(process.env.USER_UPDATE_EXCHANGE),
 };
 
 export { ServerConfigs, RabbitMQConfig, RabbitMQExchange };

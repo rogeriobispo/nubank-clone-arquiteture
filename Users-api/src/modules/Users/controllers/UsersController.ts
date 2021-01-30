@@ -14,6 +14,7 @@ class UsersController {
   public async update(req: Request, res: Response): Promise<Response> {
     const { name, email, password } = req.body;
     const { id } = req.params;
+
     const updateUser = container.resolve(UpdateUserService);
     const user = await updateUser.perform({ name, email, password, id });
     return res.json(user);
