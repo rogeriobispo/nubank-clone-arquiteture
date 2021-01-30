@@ -2,47 +2,82 @@ import 'reflect-metadata';
 import UpdateUserStatusService from '../../services/UpdateUserStatusService';
 import UserRepositoryMock from '../mocks/UserRepositoryMock';
 import User from '../../typeorm/Entities/User';
-import AppError from '../../../../shared/errors/AppErrors'
-
+import AppError from '../../../../shared/errors/AppErrors';
+import MessageBrokerMock from '../mocks/MessageBrokerMock';
 
 let updateUserStatus: UpdateUserStatusService;
 let usersRepositoryMock: UserRepositoryMock;
+let messageBrockerMock: MessageBrokerMock;
 let user: User;
 
 describe('UpdateUserStatusService', () => {
-  beforeEach(async () =>{
+  beforeEach(async () => {
     usersRepositoryMock = new UserRepositoryMock();
-    updateUserStatus = new UpdateUserStatusService(usersRepositoryMock);
+    messageBrockerMock = new MessageBrokerMock();
+    updateUserStatus = new UpdateUserStatusService(
+      usersRepositoryMock,
+      messageBrockerMock
+    );
 
     const userData = {
       name: 'JohnDoe',
       email: 'john@doe.com',
       password: 'password',
       status: true,
-    }
+    };
 
-    user = await usersRepositoryMock.create(userData)
+    user = await usersRepositoryMock.create(userData);
   });
 
   describe('perform', () => {
-
     it('when user is not found', async () => {
-      await expect(updateUserStatus.perform('xxxx')).rejects.toBeInstanceOf(AppError);
-
-    })
+      await expect(updateUserStatus.perform('xxxx')).rejects.toBeInstanceOf(
+        AppError
+      );
+    });
     it('should change user status from true to false', async () => {
       user.active = true;
-      await updateUserStatus.perform(user.id)
+      await updateUserStatus.perform(user.id);
 
-      expect(user.active).toBe(false)
-
-    })  
+      expect(user.active).toBe(false);
+    });
 
     it('should update status from false to true', async () => {
       user.active = false;
-      await updateUserStatus.perform(user.id)
+      await updateUserStatus.perform(user.id);
 
-      expect(user.active).toBe(true)
-    })
-  })
-})
+      expect(user.active).toBe(true);
+    });
+
+    it('should send message to broker with event user is blocked', async () => {
+      const brokerSpy = jest.spyOn(messageBrockerMock, 'publish');
+      user.active = true;
+      await updateUserStatus.perform(user.id);
+
+      expect(brokerSpy).toHaveBeenCalledTimes(1);
+      expect(brokerSpy).toHaveBeenCalledWith(
+        'USER_API_USER_BLOCKED',
+        JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        })
+      );
+    });
+
+    it('should send message to broker with event user is unblocked', async () => {
+      const brokerSpy = jest.spyOn(messageBrockerMock, 'publish');
+      await updateUserStatus.perform(user.id);
+      user.active = false;
+      expect(brokerSpy).toHaveBeenCalledTimes(1);
+      expect(brokerSpy).toHaveBeenCalledWith(
+        'USER_API_USER_UNBLOCKED',
+        JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        })
+      );
+    });
+  });
+});

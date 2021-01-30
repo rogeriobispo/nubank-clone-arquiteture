@@ -103,8 +103,9 @@ describe('UpdateUserService', () => {
       expect(updatedUser.password).toBe('hashed:newpassword');
     });
 
-    it('should send message to broker with event user created', async () => {
+    it('should send message to broker with event user update', async () => {
       const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
+
       const userToUpdate = {
         id: user.id,
         name: 'newName',
