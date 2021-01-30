@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
+import path from 'path';
+
+const file = path.join(__dirname, '..', 'env/', `.env.${process.env.NODE_ENV}`);
 
 dotenv.config({
-  path: `./env/.env.${process.env.NODE_ENV}`,
+  path: file,
 });
 
 const ServerConfigs = {
@@ -17,4 +20,8 @@ const RabbitMQConfig = {
   pwd: process.env.RABBIT_PWD,
 };
 
-export { ServerConfigs, RabbitMQConfig };
+const RabbitMQExchange = {
+  userCreatedExchange: String(process.env.USER_CREATE_EXCHANGE),
+};
+
+export { ServerConfigs, RabbitMQConfig, RabbitMQExchange };

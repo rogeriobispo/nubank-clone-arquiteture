@@ -2,7 +2,10 @@ Users-api/node_modules
 Users-api/build
 Users-api/ormconfig.json
 Users-api/coverage
-Users-api/env/*
+Users-api/src/shared/env/*
 
 # exception files
-!Users-api/env/.env.sample
+!Users-api/src/shared/env/.env.sample
+!Users-api/src/shared/env/.env.test
+
+src/shared/env/

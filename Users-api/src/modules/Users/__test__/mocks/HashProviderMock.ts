@@ -1,6 +1,6 @@
 import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
-class HashProviderMock implements IHashProvider{
+class HashProviderMock implements IHashProvider {
   public async generateHash(passwd: string): Promise<string> {
     return `hashed:${passwd}`;
   }

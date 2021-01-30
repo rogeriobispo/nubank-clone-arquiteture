@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe';
-
+import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
+import { RabbitMQExchange } from '../../../shared/config';
 import User from '../typeorm/Entities/User';
 import IUserDTO from '../dtos/IUserDTO';
 import IUsersRepository from '../Repositories/IUserRepository';
@@ -12,7 +13,9 @@ class CreateUserService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
     @inject('HashProvider')
-    private hashProvider: IHashProvider
+    private hashProvider: IHashProvider,
+    @inject('MessageBroker')
+    private messageBroker: IMessageBroker
   ) {}
 
   public async perform({ name, email, password }: IUserDTO): Promise<User> {
@@ -27,6 +30,11 @@ class CreateUserService {
       email,
       password: hashedPassword,
     });
+
+    this.messageBroker.publish(
+      RabbitMQExchange.userCreatedExchange,
+      JSON.stringify(user)
+    );
 
     return user;
   }
