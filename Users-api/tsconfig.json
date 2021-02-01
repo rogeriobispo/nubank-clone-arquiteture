@@ -5,6 +5,10 @@
     "strict": true, 
     "allowJs": true,
     "baseUrl": "./src",
+    "typeRoots": [
+      "@types",
+      "./node_modules/@types",
+    ],
     "paths": {
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],

@@ -4,10 +4,10 @@ import AppError from './AppErrors';
 
 const ErrorHandler = function (
   err: Error,
-  _: Request,
+  req: Request,
   response: Response,
-  __: NextFunction
-) {
+  next: NextFunction
+): Response {
   if (err instanceof AppError)
     return response.status(err.statusCode).json({
       status: 'error',

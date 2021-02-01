@@ -25,6 +25,11 @@ const RabbitMQExchange = {
   userUpdatedExchange: String(process.env.USER_UPDATE_EXCHANGE),
   userBlockedExchange: String(process.env.USER_BLOCKED_EXCHANGE),
   userUnBlockedExchange: String(process.env.USER_UNBLOCKED_EXCHANGE),
+  userAuthenticatedExchange: String(process.env.USER_AUTHENTICATED_EXCHANGE),
 };
 
-export { ServerConfigs, RabbitMQConfig, RabbitMQExchange };
+const JwtConfig = {
+  secret: String(process.env.JWT_SECRET),
+  expireIn: Number(process.env.JWT_EXPIRE_TIME),
+};
+export { ServerConfigs, RabbitMQConfig, RabbitMQExchange, JwtConfig };
