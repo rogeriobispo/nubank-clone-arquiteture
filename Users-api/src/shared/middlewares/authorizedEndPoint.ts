@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import JWT from 'jsonwebtoken';
-import { promisify } from 'util';
 import { JwtConfig } from '../config';
 import AppError from '../errors/AppErrors';
 

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import UpdateUserStatusService from '../services/UpdateUserStatusService'
+import UpdateUserStatusService from '../services/UpdateUserStatusService';
 
 class UsersStatusController {
   public async update(req: Request, res: Response): Promise<Response> {
