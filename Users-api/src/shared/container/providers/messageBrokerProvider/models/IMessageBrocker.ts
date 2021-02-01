@@ -4,7 +4,7 @@ interface IMessageBroker {
     message: string,
     routingKey?: string
   ): Promise<boolean>;
-  consume(queue: string, callBack: (msg: any) => void): void;
+  // consume(queue: string, callBack: (msg: any) => void): void;
 }
 
 export default IMessageBroker;

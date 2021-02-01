@@ -15,10 +15,10 @@ class RabbitMQ implements IMessageBroker {
     });
   }
 
-  async consume(queue: string, callBack: (msg: any) => void): Promise<void> {
-    const channel = await this.getChannel();
-    await channel.consume(queue, callBack);
-  }
+  // async consume(queue: string, callBack: (msg: any) => void): Promise<void> {
+  //   const channel = await this.getChannel();
+  //   await channel.consume(queue, callBack);
+  // }
 
   async publish(
     exchange: string,

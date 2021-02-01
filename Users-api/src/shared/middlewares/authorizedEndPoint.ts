@@ -10,7 +10,7 @@ export default async function authorizedEndPoint(
 ): Promise<void> {
   try {
     const token = req.headers?.authorization?.split(' ')[1];
-    if (!token) res.status(401).json({ error: 'Unauthorized' });
+    if (!token) throw new AppError('Unauthorized', 401);
     if (token) JWT.verify(token, JwtConfig.secret);
     next();
   } catch (error) {

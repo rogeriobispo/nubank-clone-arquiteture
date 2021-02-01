@@ -5,10 +5,6 @@ import IUserRepository from '../../Repositories/IUserRepository';
 
 const users: User[] = [];
 class UserRepositoryMock implements IUserRepository {
-  async findById(id: string): Promise<User | undefined> {
-    return users.filter((user) => user.id === id)[0];
-  }
-
   async findByEmail(email: string): Promise<User | undefined> {
     return users.filter((user) => user.email === email)[0];
   }
@@ -21,12 +17,6 @@ class UserRepositoryMock implements IUserRepository {
     users.push(user);
 
     return user;
-  }
-
-  async update(user: User): Promise<User> {
-    const index = users.findIndex((userDB) => userDB.id === user.id);
-    users.splice(index, 1, user);
-    return users[index];
   }
 }
 

@@ -1,4 +1,4 @@
-import IMessageBroker from '@shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
+import IMessageBroker from '../../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
 
 interface Message {
   exchange: string;
@@ -22,15 +22,15 @@ class MessageBrokerMock implements IMessageBroker {
     return true;
   }
 
-  consume(_: string, callBack: (msg: { content: string }) => void): void {
-    const msg = this.messages.pop();
-    if (!msg) return;
+  // consume(_: string, callBack: (msg: { content: string }) => void): void {
+  //   const msg = this.messages.pop();
+  //   if (!msg) return;
 
-    const messageObject = {
-      content: `${msg?.toString()}`,
-    };
-    callBack(messageObject);
-  }
+  //   const messageObject = {
+  //     content: `${msg?.toString()}`,
+  //   };
+  //   callBack(messageObject);
+  // }
 }
 
 export default MessageBrokerMock;

@@ -7,7 +7,7 @@ const userRouter = Router();
 
 userRouter.post('/', UsersController.create);
 userRouter.put('/:id', AuthorizedEndPoint, UsersController.update);
-userRouter.post(
+userRouter.patch(
   '/:id/status',
   AuthorizedEndPoint,
   UsersStatusController.update

@@ -32,7 +32,8 @@ class UpdateUserService {
     const existingEmail =
       email && (await this.usersRepository.findByEmail(email));
 
-    if (existingEmail) throw new AppError('Email already taken');
+    if (existingEmail && existingUser.id !== existingEmail.id)
+      throw new AppError('Email already taken');
     const hashedPassword =
       password && (await this.hashProvider.generateHash(password));
 
