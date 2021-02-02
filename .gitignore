@@ -8,4 +8,12 @@ Users-api/src/shared/env/*
 !Users-api/src/shared/env/.env.sample
 !Users-api/src/shared/env/.env.test
 
-src/shared/env/
+LogHistory-api/node_modules
+LogHistory-api/node_modules
+LogHistory-api/build
+LogHistory-api/coverage
+LogHistory-api/src/shared/env/*
+
+# exception files
+!LogHistory-api/src/shared/env/.env.sample
+!LogHistory-api/src/shared/env/.env.test
