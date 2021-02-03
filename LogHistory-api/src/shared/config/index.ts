@@ -28,10 +28,20 @@ const CronTab = {
   everySecond: String(process.env.CRON_EVERY_SECOND),
 };
 
+const MongoDB = {
+  host: String(process.env.MONGODB_HOST),
+  port: Number(process.env.MONGODB_PORT),
+  user: String(process.env.MONGODB_USER),
+  password: String(process.env.MONGODB_PASSWORD),
+  database: String(process.env.MONGODB_DATABASE),
+  useNewUrlParser: Boolean(process.env.MONGODB_USE_NEW_URL_PARSER),
+  useUnifiedTopology: Boolean(process.env.MONGODB_USE_UNIFIED_TOPOLOGY),
+};
 export {
   ServerConfigs,
   RabbitMQConfig,
   RabbitMQExchange,
   CronTab,
   RabbitMQQueue,
+  MongoDB,
 };
