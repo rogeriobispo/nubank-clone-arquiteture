@@ -1,5 +1,5 @@
 {
-  "name": "LogHistoryapi",
+  "name": "LogHistory-Api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,6 +8,7 @@
     "server-dev": "NODE_ENV=development ts-node-dev --ignore-watch node_modules src/server/server.ts",
     "server-prod": "NODE_ENV=production ts-node-dev --ignore-watch node_modules src/server/server.ts",
     "debug": "ts-node-dev --ignore-watch node_modules src/server/server.ts --inspect",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
   "dependencies": {
@@ -16,14 +17,19 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "fs": "^0.0.1-security",
     "node-cron": "^2.0.3",
-    "tsyringe": "^4.4.0"
+    "tsyringe": "^4.4.0",
+    "typeorm": "^0.2.29"
   },
   "devDependencies": {
     "@types/amqplib": "^0.5.17",
+    "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9",
     "@types/jest": "^26.0.19",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.11.0",
     "eslint": "^7.16.0",
