@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import IHistoryLogRepository from '../Repositories/IhistoryLogRepository';
 import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
 import { RabbitMQQueue } from '../../../shared/config';
 
@@ -6,7 +7,9 @@ import { RabbitMQQueue } from '../../../shared/config';
 class StoreMessage {
   constructor(
     @inject('MessageBroker')
-    private messageBroker: IMessageBroker
+    private messageBroker: IMessageBroker,
+    @inject('HistoryLogRepository')
+    private historyLogRepository: IHistoryLogRepository
   ) {}
 
   public perform(queue: string): () => void {
