@@ -13,7 +13,7 @@ class StoreMessage {
   ) {}
 
   public perform(queue: string): () => void {
-    return () => {
+    return async () => {
       console.log('Executando a tarefa a cada 1 minuto', queue);
     };
   }
