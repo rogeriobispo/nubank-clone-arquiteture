@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { container } from 'tsyringe';
 import AppError from '../../../../shared/errors/AppErrors';
 import CreateUserService from '../../services/CreateUserService';
 import UserRepositoryMock from '../mocks/UserRepositoryMock';

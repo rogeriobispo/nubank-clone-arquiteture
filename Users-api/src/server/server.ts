@@ -1,8 +1,8 @@
-import ErrorHandler from '../shared/errors/ErrorHandle';
+import 'reflect-metadata';
 import { ServerConfigs } from '../shared/config';
 import app from './app';
-
-app.use(ErrorHandler);
+import '../shared/container';
+import '../database';
 
 app.listen(ServerConfigs.port, () => {
   console.warn(

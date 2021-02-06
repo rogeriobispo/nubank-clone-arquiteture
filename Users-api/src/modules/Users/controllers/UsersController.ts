@@ -8,7 +8,7 @@ class UsersController {
     const { name, email, password } = req.body;
     const createUser = container.resolve(CreateUserService);
     const user = await createUser.perform({ name, email, password });
-    return res.json(user);
+    return res.json({ name: user.name, email: user.email });
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
