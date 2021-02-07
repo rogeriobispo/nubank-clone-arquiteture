@@ -25,6 +25,7 @@ describe('User', () => {
     );
     containerSpy.mockReturnValue(createUser);
   });
+
   describe('create user', () => {
     const user = {
       name: 'Jhondoe',
@@ -39,7 +40,31 @@ describe('User', () => {
         .set('Accept', 'application/json');
 
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual({ name: user.name, email: user.email });
+      expect(response.body).toEqual({
+        name: user.name,
+        email: user.email,
+        active: true,
+      });
+    });
+
+    it('does not create duplicate user', async () => {
+      await request(app)
+        .post('/users')
+        .send(user)
+        .set('Accept', 'application/json');
+
+      const response = await request(app)
+        .post('/users')
+        .send(user)
+        .set('Accept', 'application/json');
+
+      const expectedResponse = {
+        status: 'error',
+        message: 'User email already registered',
+      };
+
+      expect(response.status).toEqual(422);
+      expect(response.body).toEqual(expectedResponse);
     });
   });
 });

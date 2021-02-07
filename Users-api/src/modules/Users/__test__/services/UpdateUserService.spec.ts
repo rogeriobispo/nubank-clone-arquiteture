@@ -121,6 +121,7 @@ describe('UpdateUserService', () => {
           id: user.id,
           name: userToUpdate.name,
           email: user.email,
+          active: user.active,
         })
       );
     });

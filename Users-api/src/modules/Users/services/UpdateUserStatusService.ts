@@ -19,20 +19,23 @@ class UpdateUserStatusService {
 
     if (!existingUser) throw new AppError('User not found');
 
-    this.messageBroker.publish(
-      existingUser.active
-        ? RabbitMQExchange.userBlockedExchange
-        : RabbitMQExchange.userUnBlockedExchange,
-      JSON.stringify({
-        id: existingUser.id,
-        name: existingUser.name,
-        email: existingUser.email,
-      })
-    );
+    const exchange = existingUser.active
+      ? RabbitMQExchange.userBlockedExchange
+      : RabbitMQExchange.userUnBlockedExchange;
 
     existingUser.active = !existingUser.active;
 
     const user = await this.usersRepository.update(existingUser);
+
+    this.messageBroker.publish(
+      exchange,
+      JSON.stringify({
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        active: existingUser.active,
+      })
+    );
 
     return user;
   }

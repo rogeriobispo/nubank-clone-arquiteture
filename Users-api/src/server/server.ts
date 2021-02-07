@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { ServerConfigs } from '../shared/config';
 import app from './app';
 import '../shared/container';

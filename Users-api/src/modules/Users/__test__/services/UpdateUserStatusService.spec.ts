@@ -61,14 +61,16 @@ describe('UpdateUserStatusService', () => {
           id: user.id,
           name: user.name,
           email: user.email,
+          active: false,
         })
       );
     });
 
     it('should send message to broker with event user is unblocked', async () => {
       const brokerSpy = jest.spyOn(messageBrockerMock, 'publish');
-      await updateUserStatus.perform(user.id);
       user.active = false;
+      await usersRepositoryMock.update(user);
+      await updateUserStatus.perform(user.id);
       expect(brokerSpy).toHaveBeenCalledTimes(1);
       expect(brokerSpy).toHaveBeenCalledWith(
         'USER_API_USER_UNBLOCKED',
@@ -76,6 +78,7 @@ describe('UpdateUserStatusService', () => {
           id: user.id,
           name: user.name,
           email: user.email,
+          active: true,
         })
       );
     });

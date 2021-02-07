@@ -37,6 +37,7 @@ class CreateUserService {
         id: user.id,
         name: user.name,
         email: user.email,
+        active: user.active,
       })
     );
 

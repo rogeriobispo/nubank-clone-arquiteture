@@ -16,14 +16,14 @@ class UserRepositoryMock implements IUserRepository {
   async create(userParams: IUserDTO): Promise<User> {
     const user = new User();
 
-    Object.assign(user, { id: uuidv4(), ...userParams });
+    Object.assign(user, { id: uuidv4(), active: true, ...userParams });
 
     users.push(user);
 
     return user;
   }
 
-  async update(user: User) {
+  async update(user: User): Promise<User> {
     const index = users.findIndex((userDB) => userDB.id === user.id);
     users.splice(index, 1, user);
     return users[index];
