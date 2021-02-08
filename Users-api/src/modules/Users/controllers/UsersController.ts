@@ -9,6 +9,7 @@ class UsersController {
     const createUser = container.resolve(CreateUserService);
     const user = await createUser.perform({ name, email, password });
     return res.json({
+      id: user.id,
       name: user.name,
       email: user.email,
       active: user.active,
@@ -22,6 +23,7 @@ class UsersController {
     const updateUser = container.resolve(UpdateUserService);
     const user = await updateUser.perform({ name, email, password, id });
     return res.json({
+      id: user.id,
       name: user.name,
       email: user.email,
       active: user.active,

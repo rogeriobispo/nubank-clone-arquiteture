@@ -21,19 +21,16 @@ const RabbitMQConfig = {
 };
 
 const RabbitMQExchange = {};
-const RabbitMQQueue = {};
+const RabbitMQQueue = {
+  historyLogQueue: String(process.env.HISTORY_LOG_QUEUE),
+};
 
 const CronTab = {
-  everyMinute: String(process.env.CRON_EVERY_MINUTE),
-  everySecond: String(process.env.CRON_EVERY_SECOND),
+  cronStoreMessage: String(process.env.CRON_STORE_MESSAGE),
 };
 
 const MongoDB = {
-  host: String(process.env.MONGODB_HOST),
-  port: Number(process.env.MONGODB_PORT),
-  user: process.env.MONGODB_USER,
-  password: process.env.MONGODB_PASSWORD,
-  database: String(process.env.MONGODB_DATABASE),
+  connectionString: String(process.env.MONGODB_CONNECTION_STRING),
   useNewUrlParser: Boolean(process.env.MONGODB_USE_NEW_URL_PARSER),
   useUnifiedTopology: Boolean(process.env.MONGODB_USE_UNIFIED_TOPOLOGY),
 };

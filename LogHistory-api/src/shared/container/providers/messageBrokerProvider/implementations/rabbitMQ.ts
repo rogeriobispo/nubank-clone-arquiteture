@@ -1,6 +1,6 @@
 import Amqp from 'amqplib';
 import { RabbitMQConfig } from '../../../../config';
-import IMessageBroker from '../models/IMessageBrocker';
+import IMessageBroker, { IMessageObj } from '../models/IMessageBrocker';
 
 class RabbitMQ implements IMessageBroker {
   private connection;
@@ -15,19 +15,28 @@ class RabbitMQ implements IMessageBroker {
     });
   }
 
-  // async consume(queue: string, callBack: (msg: any) => void): Promise<void> {
-  //   const channel = await this.getChannel();
-  //   await channel.consume(queue, callBack);
-  // }
-
-  async publish(
-    exchange: string,
-    message: string,
-    routingKey = '*'
-  ): Promise<boolean> {
+  async consume(queue: string): Promise<IMessageObj[]> {
+    const messages: IMessageObj[] = [];
     const channel = await this.getChannel();
-    const content = Buffer.from(message);
-    return channel.publish(exchange, routingKey, content);
+    await channel.consume(
+      queue,
+      (message) => {
+        if (message) {
+          const msgObj = {
+            userId: JSON.parse(message.content.toString()).id,
+            eventName: message.fields.exchange,
+            message: message.content.toString(),
+          };
+          messages.push(msgObj);
+        }
+      },
+      { noAck: true }
+    );
+
+    channel.ackAll();
+    channel.close();
+
+    return messages;
   }
 
   private getChannel() {

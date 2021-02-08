@@ -8,6 +8,7 @@ class UsersStatusController {
     const updateUserStatus = container.resolve(UpdateUserStatusService);
     const user = await updateUserStatus.perform(id);
     return res.json({
+      id: user.id,
       name: user.name,
       email: user.email,
       active: user.active,

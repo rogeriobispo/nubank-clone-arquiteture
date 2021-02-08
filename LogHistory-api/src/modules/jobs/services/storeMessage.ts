@@ -1,7 +1,7 @@
+import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
 import IHistoryLogRepository from '../Repositories/IhistoryLogRepository';
 import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
-import { RabbitMQQueue } from '../../../shared/config';
 
 @injectable()
 class StoreMessage {
@@ -14,7 +14,10 @@ class StoreMessage {
 
   public perform(queue: string): () => void {
     return async () => {
-      console.log('Executando a tarefa a cada 1 minuto', queue);
+      const messages = await this.messageBroker.consume(queue);
+      messages.forEach(async (message) =>
+        this.historyLogRepository.create(message)
+      );
     };
   }
 }
