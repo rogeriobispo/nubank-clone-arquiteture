@@ -38,9 +38,13 @@ describe('User', () => {
         .post('/users')
         .send(user)
         .set('Accept', 'application/json');
-
+      const expectedResponse = {
+        name: response.body.name,
+        email: response.body.email,
+        active: response.body.active,
+      };
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual({
+      expect(expectedResponse).toEqual({
         name: user.name,
         email: user.email,
         active: true,

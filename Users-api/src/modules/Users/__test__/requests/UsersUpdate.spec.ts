@@ -53,9 +53,13 @@ describe('User', () => {
         })
         .set('Accept', 'application/json')
         .set('Authorization', `Bearer ${token}`);
-
+      const expectedResponse = {
+        name: response.body.name,
+        email: response.body.email,
+        active: response.body.active,
+      };
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual({
+      expect(expectedResponse).toEqual({
         name: 'update user',
         email: 'updatedUser@gmail.com',
         active: true,

@@ -15,11 +15,6 @@ class RabbitMQ implements IMessageBroker {
     });
   }
 
-  // async consume(queue: string, callBack: (msg: any) => void): Promise<void> {
-  //   const channel = await this.getChannel();
-  //   await channel.consume(queue, callBack);
-  // }
-
   async publish(
     exchange: string,
     message: string,
@@ -27,7 +22,9 @@ class RabbitMQ implements IMessageBroker {
   ): Promise<boolean> {
     const channel = await this.getChannel();
     const content = Buffer.from(message);
-    return channel.publish(exchange, routingKey, content);
+    const response = channel.publish(exchange, routingKey, content);
+    channel.close();
+    return response;
   }
 
   private getChannel() {
