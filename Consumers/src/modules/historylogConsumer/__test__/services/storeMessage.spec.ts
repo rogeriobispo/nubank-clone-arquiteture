@@ -49,5 +49,13 @@ describe('storeMessage', () => {
         message: '11 message',
       });
     });
+
+    it('should return empty message array when queue does not exist', async () => {
+      const repositorySpy = jest.spyOn(historyLogRepositoryMock, 'create');
+      const consumeFunction = storeMessage.perform('any queue');
+
+      await consumeFunction();
+      expect(repositorySpy).toHaveBeenCalledTimes(0);
+    });
   });
 });

@@ -8,12 +8,12 @@ Users-api/src/shared/env/*
 !Users-api/src/shared/env/.env.sample
 !Users-api/src/shared/env/.env.test
 
-LogHistory-api/node_modules
-LogHistory-api/node_modules
-LogHistory-api/build
-LogHistory-api/coverage
-LogHistory-api/src/shared/env/*
+Consumers/node_modules
+Consumers/node_modules
+Consumers/build
+Consumers/coverage
+Consumers/src/shared/env/*
 
 # exception files
-!LogHistory-api/src/shared/env/.env.sample
-!LogHistory-api/src/shared/env/.env.test
+!Consumers/src/shared/env/.env.sample
+!Consumers/src/shared/env/.env.test
