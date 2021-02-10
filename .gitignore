@@ -16,3 +16,4 @@ Consumers/src/shared/env/*
 # exception files
 !Consumers/src/shared/env/.env.sample
 !Consumers/src/shared/env/.env.test
+
