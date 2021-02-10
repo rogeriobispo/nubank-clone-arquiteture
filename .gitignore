@@ -9,7 +9,6 @@ Users-api/src/shared/env/*
 !Users-api/src/shared/env/.env.test
 
 Consumers/node_modules
-Consumers/node_modules
 Consumers/build
 Consumers/coverage
 Consumers/src/shared/env/*
