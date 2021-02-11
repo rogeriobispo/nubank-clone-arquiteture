@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import path from 'path';
 
 const file = path.join(__dirname, '..', 'env/', `.env.${process.env.NODE_ENV}`);
