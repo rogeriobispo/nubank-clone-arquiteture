@@ -1,6 +1,4 @@
-import { createConnection } from 'typeorm';
-import { DBConfig } from '../shared/config';
-
+import { DBConfig } from './src/shared/config';
 const {
   host,
   port,
@@ -12,7 +10,9 @@ const {
   cli,
 } = DBConfig;
 
-createConnection({
+console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}`);
+
+export default {
   type: 'postgres',
   host,
   port,
@@ -22,4 +22,4 @@ createConnection({
   entities,
   migrations,
   cli,
-});
+};

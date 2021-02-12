@@ -1,7 +1,11 @@
 import * as dotenv from 'dotenv';
 import path from 'path';
 
-const file = path.join(__dirname, '..', 'env/', `.env.${process.env.NODE_ENV}`);
+const envFile = !process.env.NODE_ENV
+  ? `.env.development`
+  : `.env.${process.env.NODE_ENV}`;
+
+const file = path.join(__dirname, '..', 'env/', envFile);
 
 dotenv.config({
   path: file,
@@ -33,4 +37,17 @@ const JwtConfig = {
   expireIn: Number(process.env.JWT_EXPIRE_TIME),
 };
 
-export { ServerConfigs, RabbitMQConfig, RabbitMQExchange, JwtConfig };
+const DBConfig = {
+  host: String(process.env.DB_HOST),
+  port: Number(process.env.DB_PORT),
+  username: String(process.env.DB_USER),
+  password: String(process.env.DB_PWD),
+  database: String(process.env.DB_DATABASE),
+  entities: ['src/modules/**/typeorm/Entities/{*.ts,*.js}'],
+  migrations: ['./src/database/migrations/{*.ts,*.js}'],
+  cli: {
+    migrationsDir: './src/database/migrations',
+  },
+};
+
+export { ServerConfigs, RabbitMQConfig, RabbitMQExchange, JwtConfig, DBConfig };
