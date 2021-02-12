@@ -1,4 +1,5 @@
-import { DBConfig } from './src/shared/config';
+const { DBConfig } = require('./src/shared/config');
+
 const {
   host,
   port,
@@ -12,7 +13,7 @@ const {
 
 console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}`);
 
-export default {
+module.exports = {
   type: 'postgres',
   host,
   port,
