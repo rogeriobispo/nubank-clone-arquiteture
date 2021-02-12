@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --include-dotfiles",
+    "build": "babel src --extensions \".js,.ts\" --out-dir build/src --copy-files --include-dotfiles",
     "server-dev": "NODE_ENV=development ts-node-dev --ignore-watch node_modules src/server/server.ts",
     "server-prod": "NODE_ENV=production ts-node-dev --ignore-watch node_modules src/server/server.ts",
     "debug": "ts-node-dev --ignore-watch node_modules src/server/server.ts --inspect",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.12.13",
+    "@babel/core": "^7.12.13",
     "@babel/node": "^7.12.13",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.13",

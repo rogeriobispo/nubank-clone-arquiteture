@@ -1,13 +1,15 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "srv",
   "port": 5432,
-  "username": "admin",
-  "password": "password",
-  "database": "some_project",
-  "dropSchema": true,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "users_api_development",
+  "entities": [
+    "src/modules/**/typeorm/Entities/{*.ts,*.js}"
+  ],
   "migrations": [
-    "./src/database/migrations/*.ts"
+    "./src/database/migrations/{*.ts,*.js}"
   ],
   "cli": {
     "migrationsDir": "./src/database/migrations"

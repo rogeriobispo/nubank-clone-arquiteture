@@ -32,4 +32,5 @@ const JwtConfig = {
   secret: String(process.env.JWT_SECRET),
   expireIn: Number(process.env.JWT_EXPIRE_TIME),
 };
+
 export { ServerConfigs, RabbitMQConfig, RabbitMQExchange, JwtConfig };
