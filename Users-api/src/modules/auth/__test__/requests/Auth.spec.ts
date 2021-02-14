@@ -21,6 +21,7 @@ describe('Authentication', () => {
       name: 'Jhondoe',
       email: 'jhondoe@jhondoe.com',
       password: '123456',
+      active: true,
     };
     const containerSpy = jest.spyOn(container, 'resolve');
     usersRepositoryMock = new UserRepositoryMock();
@@ -58,6 +59,29 @@ describe('Authentication', () => {
       .send({
         email: 'jhondoe@jhondoe.com',
         password: 'wrong',
+      })
+      .set('Accept', 'application/json');
+
+    expect(response.status).toEqual(401);
+    expect(response.body).toEqual({
+      status: 'error',
+      message: 'Unauthorized',
+    });
+  });
+
+  it('Should not generate an token when the user is blocked', async () => {
+    const userBlocked = await usersRepositoryMock.create({
+      email: 'user@example.com',
+      name: 'user',
+      active: false,
+      password: '12345',
+    });
+
+    const response = await request(app)
+      .post('/login')
+      .send({
+        email: userBlocked.email,
+        password: userBlocked.password,
       })
       .set('Accept', 'application/json');
 

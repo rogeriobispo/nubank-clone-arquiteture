@@ -35,6 +35,7 @@ describe('AuthenticateUserService', () => {
         name: 'JohnDoe',
         email: 'john@doe.com',
         password: 'password',
+        active: true,
       });
 
       const response = await authenticateUserService.perform(
@@ -60,6 +61,7 @@ describe('AuthenticateUserService', () => {
         name: 'JohnDoe',
         email: 'john@doe.com',
         password: 'password',
+        active: true,
       });
 
       await expect(

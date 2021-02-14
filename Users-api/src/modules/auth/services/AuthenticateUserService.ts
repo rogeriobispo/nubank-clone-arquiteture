@@ -28,6 +28,8 @@ class AuthenticateUserSerice {
 
     if (!user) throw new AppError('Unauthorized', 401);
 
+    if (!user.active) throw new AppError('Unauthorized', 401);
+
     const checkPassword = await this.hashProvider.compareHash(
       password,
       user.password

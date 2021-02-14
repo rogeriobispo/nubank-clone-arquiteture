@@ -15,6 +15,7 @@ class StoreMessage {
   public perform(queue: string): () => void {
     return async () => {
       const messages = await this.messageBroker.consume(queue);
+      console.log(messages);
       messages.forEach(async (message) =>
         this.historyLogRepository.create(message)
       );
