@@ -8,17 +8,12 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 * nodejs
 * typescript
 * docker
-* kubernets
 * rabbitmq
-* kafka
-* react
-* react native
 
 ## patterns and architecture
 
 * crqs
 * events drive arquiteture
-* event stream kafka
 * Test driven development
 * microservices arquiteture
 
@@ -38,8 +33,15 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 Chalenge myself to create a big arquiteture and learn from it, improve skils from it.
 
 ## Users Api
-    # create new Enviroment
-    * create script on packagejson
-    * clone the env.sample with the new name example('.env.stage')
+    - Api for creanting users
+    # Fetures
+    * Create user
+    * Update user
+    * Block and unbloque user
+    * Easy way to create new environments just change the node_env
+    * dockerfile to deploy on kubernets
 
+## Consumers
+    - background jobs to consume message on the 4
+    * History log consumer
 
