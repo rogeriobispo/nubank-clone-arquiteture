@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir build/src --copy-files --include-dotfiles && cp package.json ./build",
     "server-dev": "NODE_ENV=development ts-node-dev --ignore-watch node_modules src/startup/schedulers.ts",
-    "server-prod": "NODE_ENV=production ts-node-dev --ignore-watch node_modules src/startup/schedulers.ts",
+    "server-prod": "node src/startup/schedulers.js",
     "debug": "ts-node-dev --ignore-watch node_modules src/startup/schedulers.ts --inspect",
     "test": "jest"
   },
