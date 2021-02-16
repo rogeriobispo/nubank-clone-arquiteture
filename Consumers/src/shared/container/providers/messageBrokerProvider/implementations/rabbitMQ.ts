@@ -23,7 +23,7 @@ class RabbitMQ implements IMessageBroker {
       (message) => {
         if (message) {
           const msgObj = {
-            userId: JSON.parse(message.content.toString()).id,
+            currentUserId: JSON.parse(message.content.toString()).currentUserId,
             eventName: message.fields.exchange,
             message: message.content.toString(),
           };

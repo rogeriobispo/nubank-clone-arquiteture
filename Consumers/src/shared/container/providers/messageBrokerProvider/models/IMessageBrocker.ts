@@ -1,5 +1,5 @@
 export interface IMessageObj {
-  userId: string;
+  currentUserId: string;
   eventName: string;
   message: string;
 }

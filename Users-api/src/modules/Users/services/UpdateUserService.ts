@@ -24,6 +24,7 @@ class UpdateUserService {
     email,
     password,
     id,
+    currentUserId,
   }: IUserUpdateDTO): Promise<User> {
     const existingUser = await this.usersRepository.findById(id);
 
@@ -46,6 +47,7 @@ class UpdateUserService {
     this.messageBroker.publish(
       RabbitMQExchange.userUpdatedExchange,
       JSON.stringify({
+        currentUserId,
         id: user.id,
         name: user.name,
         email: user.email,

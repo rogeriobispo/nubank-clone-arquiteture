@@ -71,6 +71,7 @@ describe('CreateUserService', () => {
       expect(brokerSpy).toHaveBeenCalledWith(
         'USER_API_USER_CREATED',
         JSON.stringify({
+          currentUserId: user.id,
           id: user.id,
           name: user.name,
           email: user.email,

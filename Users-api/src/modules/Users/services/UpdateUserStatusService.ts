@@ -14,7 +14,7 @@ class UpdateUserStatusService {
     private messageBroker: IMessageBroker
   ) {}
 
-  public async perform(id: string): Promise<User> {
+  public async perform(id: string, currentUserId: string): Promise<User> {
     const existingUser = await this.usersRepository.findById(id);
 
     if (!existingUser) throw new AppError('User not found');
@@ -30,7 +30,8 @@ class UpdateUserStatusService {
     this.messageBroker.publish(
       exchange,
       JSON.stringify({
-        id: existingUser.id,
+        currentUserId,
+        id: user.id,
         name: existingUser.name,
         email: existingUser.email,
         active: existingUser.active,
