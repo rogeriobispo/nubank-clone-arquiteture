@@ -11,7 +11,11 @@
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],
       "@shared/*": ["shared/*"]
-    },                          
+    }, 
+    "typeRoots": [
+      "@types",
+      "./node_modules/@types",
+    ],          
     "esModuleInterop": true,                  
     "skipLibCheck": true,                     
     "forceConsistentCasingInFileNames": true,
