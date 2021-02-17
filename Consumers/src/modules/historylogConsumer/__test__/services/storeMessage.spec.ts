@@ -44,7 +44,7 @@ describe('storeMessage', () => {
       await consumeFunction();
       expect(repositorySpy).toHaveBeenCalledTimes(11);
       expect(repositorySpy).lastCalledWith({
-        userId: '110',
+        currentUserId: '110',
         eventName: 'USER_API_USER_BLOCKED',
         message: '11 message',
       });

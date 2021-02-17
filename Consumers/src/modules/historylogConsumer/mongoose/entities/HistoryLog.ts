@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const HistoryLogSchema: Schema = new Schema(
   {
-    userId: { type: String, required: true },
+    currentUserId: { type: String, required: true },
     eventName: { type: String, required: true },
     message: { type: Object, required: true },
   },

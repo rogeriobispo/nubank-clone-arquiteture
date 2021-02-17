@@ -1,5 +1,5 @@
 interface IHistoryLogData {
-  userId: string;
+  currentUserId: string;
   eventName: string;
   message: any;
 }
