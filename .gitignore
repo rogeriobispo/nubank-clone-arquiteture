@@ -17,3 +17,12 @@ Consumers/src/shared/env/*
 !Consumers/src/shared/env/.env.sample
 !Consumers/src/shared/env/.env.test
 
+Address-api/node_modules
+Address-api/build
+Address-api/ormconfig.json
+Address-api/coverage
+Address-api/src/shared/env/*
+
+# exception files
+!Address-api/src/shared/env/.env.sample
+!Address-api/src/shared/env/.env.test
