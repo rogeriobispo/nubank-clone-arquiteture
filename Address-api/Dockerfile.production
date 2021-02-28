@@ -14,16 +14,15 @@ ENV RABBIT_VHOST desenvolvimento
 ENV RABBIT_USER guest
 ENV RABBIT_PWD guest
 
-ENV DB_HOST 192.168.0.103
-ENV DB_PORT 5432
-ENV DB_USER postgres
-ENV DB_PWD postgres
-ENV DB_DATABASE users_api_${NODE_ENV}
+
+ENV REDIS_HOST=localhost
+ENV REDIS_PORT=15,
+ENV REDIS_PASS=any
 
 WORKDIR /app
-COPY --from=0 /app/build ./users-api
-RUN cd users-api && npm install --only=production
-WORKDIR /app/users-api
+COPY --from=0 /app/build ./address-api
+RUN cd address-api && npm install --only=production
+WORKDIR /app/address-api
 RUN cp src/shared/env/.env.sample src/shared/env/.env.${NODE_ENV}
 RUN npm run typeorm:prod migration:run
 EXPOSE ${PORT}

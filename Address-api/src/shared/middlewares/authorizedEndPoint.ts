@@ -1,14 +1,11 @@
+import axios from 'axios';
 import { Request, Response, NextFunction } from 'express';
-import JWT from 'jsonwebtoken';
-import { JwtConfig } from '../config';
+import { ExternalApi } from '../config';
 import AppError from '../errors/AppErrors';
 
-export interface CurrentUser {
-  id: string;
-  name: string;
-  email: string;
-}
-
+const api = axios.create({
+  baseURL: ExternalApi.authApiBaseUrl,
+});
 export default async function authorizedEndPoint(
   req: Request,
   res: Response,
@@ -18,7 +15,7 @@ export default async function authorizedEndPoint(
     const token = req.headers?.authorization?.split(' ')[1];
     if (!token) throw new AppError('Unauthorized', 401);
     if (token) {
-      req.currentUser = JWT.verify(token, JwtConfig.secret) as CurrentUser;
+      await api.get(`/authorized/${token}`);
     }
     next();
   } catch (error) {

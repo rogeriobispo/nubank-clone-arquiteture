@@ -1,3 +1,4 @@
+import { RedisOptions } from 'ioredis';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -26,4 +27,32 @@ const RabbitMQConfig = {
 
 const RabbitMQExchange = {};
 
-export { ServerConfigs, RabbitMQConfig, RabbitMQExchange };
+const ExternalApi = {
+  authApiBaseUrl: process.env.AUTH_API,
+};
+
+interface ICacheConfig {
+  driver: 'redis';
+  config: {
+    redis: RedisOptions;
+  };
+}
+
+const RedisConfig = {
+  driver: 'redis',
+  config: {
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      password: process.env.REDIS_PASS || '',
+    },
+  },
+} as ICacheConfig;
+
+export {
+  ServerConfigs,
+  RabbitMQConfig,
+  RabbitMQExchange,
+  ExternalApi,
+  RedisConfig,
+};
