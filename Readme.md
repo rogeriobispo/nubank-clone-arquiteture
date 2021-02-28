@@ -12,14 +12,14 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 
 ## patterns and architecture
 
-* crqs
 * events drive arquiteture
 * Test driven development
 * microservices arquiteture
 
 ## services that will be created
 
-* Users - WIP
+* Users-Api - done
+* Address-Api done
 * Accounts - backlog
 * bank stratum - backlog
 * Ted - backlog
@@ -40,8 +40,19 @@ Chalenge myself to create a big arquiteture and learn from it, improve skils fro
     * Block and unbloque user
     * Easy way to create new environments just change the node_env
     * dockerfile to deploy on kubernets
+    * Unit tests
+    * Requests tests
+## consumers
+    - background jobs
+    # features
+    * rabbitmq Consumers
+    * store history log on mongo db
+## Address Api
+    - search zipcode
+    # returns address for a zipcode.
+    * store on redis as cache for the zipcode
 
 ## Consumers
-    - background jobs to consume message on the 4
+    - background jobs to consume message on the ecosystem
     * History log consumer
 
