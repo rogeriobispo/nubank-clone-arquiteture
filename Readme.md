@@ -19,7 +19,8 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 ## services that will be created
 
 * Users-Api - done
-* Address-Api done
+* Address-Api - done
+* consumers - WIP until the end of the project
 * Accounts - backlog
 * bank stratum - backlog
 * Ted - backlog
