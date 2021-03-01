@@ -15,7 +15,7 @@ describe('authorized', () => {
     );
 
     const response = await request(app)
-      .post('/authorized')
+      .get('/authorized')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toEqual(200);
   });
@@ -24,7 +24,7 @@ describe('authorized', () => {
     const token = 'anytoken';
 
     const response = await request(app)
-      .post('/authorized')
+      .get('/authorized')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toEqual(401);
   });
