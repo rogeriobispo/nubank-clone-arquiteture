@@ -15,7 +15,7 @@ describe('AuthenticateUserService', () => {
     cepService = new CepService(cepProvider, cacheProviderMock);
   });
 
-  describe('perform', () => {
+  describe('#perform', () => {
     it('should return a cep when it exists', async () => {
       const expectedResponse = {
         cep: '06814210',

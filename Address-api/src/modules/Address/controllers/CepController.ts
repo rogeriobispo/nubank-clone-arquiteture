@@ -7,9 +7,9 @@ class CepController {
   public async show(req: Request, res: Response): Promise<Response> {
     const { cep } = req.params;
 
-    const authService = container.resolve(CepService);
+    const cepService = container.resolve(CepService);
 
-    const responseCep = await authService.perform(cep);
+    const responseCep = await cepService.perform(cep);
 
     return res.json(responseCep);
   }

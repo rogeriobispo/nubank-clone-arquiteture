@@ -32,6 +32,7 @@ describe('Address', () => {
         street: 'Argentina',
         neighborhood: 'Sao Marcos',
       };
+
       const response = await request(app)
         .get('/cep/06814210')
         .set('Accept', 'application/json')
