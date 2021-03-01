@@ -3,7 +3,7 @@ import authorizedEndPoint from '../../../shared/middlewares/authorizedEndPoint';
 
 const authorizedRouter = Router();
 
-authorizedRouter.post('/', authorizedEndPoint, (req, res) => {
+authorizedRouter.get('/', authorizedEndPoint, (req, res) => {
   res.send('ok');
 });
 
