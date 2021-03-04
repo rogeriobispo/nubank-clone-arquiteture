@@ -34,6 +34,11 @@ const MongoDB = {
   useNewUrlParser: Boolean(process.env.MONGODB_USE_NEW_URL_PARSER),
   useUnifiedTopology: Boolean(process.env.MONGODB_USE_UNIFIED_TOPOLOGY),
 };
+
+const MailerConfig = {
+  driver: process.env.MAILER_DRIVER || 'ethereal',
+};
+
 export {
   ServerConfigs,
   RabbitMQConfig,
@@ -41,4 +46,5 @@ export {
   CronTab,
   RabbitMQQueue,
   MongoDB,
+  MailerConfig,
 };
