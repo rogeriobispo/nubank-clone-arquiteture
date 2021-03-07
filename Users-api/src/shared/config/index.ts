@@ -30,6 +30,7 @@ const RabbitMQExchange = {
   userBlockedExchange: String(process.env.USER_BLOCKED_EXCHANGE),
   userUnBlockedExchange: String(process.env.USER_UNBLOCKED_EXCHANGE),
   userAuthenticatedExchange: String(process.env.USER_AUTHENTICATED_EXCHANGE),
+  senderMailer: String(process.env.SENDER_MAILER),
 };
 
 const JwtConfig = {
@@ -50,4 +51,17 @@ const DBConfig = {
   },
 };
 
-export { ServerConfigs, RabbitMQConfig, RabbitMQExchange, JwtConfig, DBConfig };
+const EmailConfig = {
+  from: {
+    name: process.env.FROM_NAME || 'Default Company',
+    email: process.env.FROM_EMAIL || 'defaultCompany@campany.com',
+  },
+};
+export {
+  ServerConfigs,
+  RabbitMQConfig,
+  RabbitMQExchange,
+  JwtConfig,
+  DBConfig,
+  EmailConfig,
+};

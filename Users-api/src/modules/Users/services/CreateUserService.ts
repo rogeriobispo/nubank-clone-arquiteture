@@ -1,6 +1,8 @@
 import { injectable, inject } from 'tsyringe';
+import path from 'path';
+import IMailSender from '@shared/container/providers/mailProvider/models/IMailSender';
 import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
-import { RabbitMQExchange } from '../../../shared/config';
+import { RabbitMQExchange, EmailConfig } from '../../../shared/config';
 import User from '../typeorm/Entities/User';
 import IUserDTO from '../dtos/IUserDTO';
 import IUsersRepository from '../Repositories/IUserRepository';
@@ -15,7 +17,9 @@ class CreateUserService {
     @inject('HashProvider')
     private hashProvider: IHashProvider,
     @inject('MessageBroker')
-    private messageBroker: IMessageBroker
+    private messageBroker: IMessageBroker,
+    @inject('RabbitMailerSender')
+    private rabbitMailerSender: IMailSender
   ) {}
 
   public async perform({ name, email, password }: IUserDTO): Promise<User> {
@@ -42,7 +46,29 @@ class CreateUserService {
       })
     );
 
+    this.sendWelcomeEmail(user);
+
     return user;
+  }
+
+  private async sendWelcomeEmail(user: User): Promise<void> {
+    const { from } = EmailConfig;
+
+    const to = { name: user.name, email: user.email };
+    const subject = 'Bem Vindo';
+    const template = path.resolve(__dirname, '..', 'views', 'welcome.hbs');
+    const variables = {
+      name: user.name,
+      company: from.name,
+      companyEmail: from.email,
+    };
+    this.rabbitMailerSender.sendMail({
+      from,
+      template,
+      to,
+      subject,
+      variables,
+    });
   }
 }
 
