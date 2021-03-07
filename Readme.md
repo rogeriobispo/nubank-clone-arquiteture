@@ -39,6 +39,7 @@ Chalenge myself to create a big arquiteture and learn from it, improve skils fro
     * Create user
     * Update user
     * Block and unbloque user
+    * Welcome mail
     * Easy way to create new environments just change the node_env
     * dockerfile to deploy on kubernets
     * Unit tests
@@ -48,12 +49,9 @@ Chalenge myself to create a big arquiteture and learn from it, improve skils fro
     # features
     * rabbitmq Consumers
     * store history log on mongo db
+    * Send emails consumer
 ## Address Api
     - search zipcode
     # returns address for a zipcode.
     * store on redis as cache for the zipcode
-
-## Consumers
-    - background jobs to consume message on the ecosystem
-    * History log consumer
 
