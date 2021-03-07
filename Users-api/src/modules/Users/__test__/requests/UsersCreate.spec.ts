@@ -6,11 +6,13 @@ import CreateUserService from '../../services/CreateUserService';
 import UserRepositoryMock from '../mocks/UserRepositoryMock';
 import HashProviderMock from '../mocks/HashProviderMock';
 import MessageBrokerMock from '../mocks/MessageBrokerMock';
+import RabbitMailerSenderMock from '../mocks/RabbitMailerSenderMock';
 
 let createUser: CreateUserService;
 let usersRepositoryMock: UserRepositoryMock;
 let hashProviderMock: HashProviderMock;
 let messageBrokerMock: MessageBrokerMock;
+let rabbitMailerSenderMock: RabbitMailerSenderMock;
 
 describe('User', () => {
   beforeEach(() => {
@@ -18,10 +20,12 @@ describe('User', () => {
     usersRepositoryMock = new UserRepositoryMock();
     hashProviderMock = new HashProviderMock();
     messageBrokerMock = new MessageBrokerMock();
+    rabbitMailerSenderMock = new RabbitMailerSenderMock(messageBrokerMock);
     createUser = new CreateUserService(
       usersRepositoryMock,
       hashProviderMock,
-      messageBrokerMock
+      messageBrokerMock,
+      rabbitMailerSenderMock
     );
     containerSpy.mockReturnValue(createUser);
   });
