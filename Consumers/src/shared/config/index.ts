@@ -23,10 +23,12 @@ const RabbitMQConfig = {
 const RabbitMQExchange = {};
 const RabbitMQQueue = {
   historyLogQueue: String(process.env.HISTORY_LOG_QUEUE),
+  sendMailQueue: String(process.env.SEND_MAIL_QUEUE),
 };
 
 const CronTab = {
   cronStoreMessage: String(process.env.CRON_STORE_MESSAGE),
+  cronSendMail: String(process.env.CRON_SEND_MAIL),
 };
 
 const MongoDB = {
@@ -35,9 +37,13 @@ const MongoDB = {
   useUnifiedTopology: Boolean(process.env.MONGODB_USE_UNIFIED_TOPOLOGY),
 };
 
+interface IMailConfig {
+  driver: 'ethereal' | 'ses';
+}
+
 const MailerConfig = {
   driver: process.env.MAILER_DRIVER || 'ethereal',
-};
+} as IMailConfig;
 
 export {
   ServerConfigs,

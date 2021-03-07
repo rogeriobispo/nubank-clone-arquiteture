@@ -22,7 +22,6 @@ class EtherealMailProvider implements IMailProvider {
           pass: account.pass,
         },
       });
-
       this.client = transporter;
     });
   }
@@ -47,7 +46,7 @@ class EtherealMailProvider implements IMailProvider {
     });
 
     console.log('Message sent: s%', message.messageId);
-    console.log('Previe URL: %s', nodeMailer.getTestMessageUrl(message));
+    console.log('Preview URL: %s', nodeMailer.getTestMessageUrl(message));
   }
 }
 
