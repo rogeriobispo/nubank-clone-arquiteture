@@ -26,3 +26,13 @@ Address-api/src/shared/env/*
 # exception files
 !Address-api/src/shared/env/.env.sample
 !Address-api/src/shared/env/.env.test
+
+accounts-api/node_modules
+accounts-api/build
+accounts-api/ormconfig.json
+accounts-api/coverage
+accounts-api/src/shared/env/*
+
+# exception files
+accounts-api/src/shared/env/.env.sample
+accounts-api/src/shared/env/.env.test

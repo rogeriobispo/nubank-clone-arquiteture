@@ -12,9 +12,9 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 
 ## patterns and architecture
 
-* events drive arquiteture
+* events drive architecture
 * Test driven development
-* microservices arquiteture
+* microservices architecture
 
 ## services that will be created
 
@@ -31,7 +31,7 @@ it will note be the real copy of its econsystem, only what i thinks it is.
 
 ## Motivation
 
-Chalenge myself to create a big arquiteture and learn from it, improve skils from it.
+Chalenge myself to create a big architecture and learn from it, improve skils from it.
 
 ## Users Api
     - Api for creanting users
@@ -40,6 +40,8 @@ Chalenge myself to create a big arquiteture and learn from it, improve skils fro
     * Update user
     * Block and unbloque user
     * Welcome mail
+    * Authenticate
+    * verify token authentication
     * Easy way to create new environments just change the node_env
     * dockerfile to deploy on kubernets
     * Unit tests
