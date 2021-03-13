@@ -27,12 +27,12 @@ Address-api/src/shared/env/*
 !Address-api/src/shared/env/.env.sample
 !Address-api/src/shared/env/.env.test
 
-accounts-api/node_modules
-accounts-api/build
-accounts-api/ormconfig.json
-accounts-api/coverage
-accounts-api/src/shared/env/*
+Accounts-api/node_modules
+Accounts-api/build
+Accounts-api/ormconfig.json
+Accounts-api/coverage
+Accounts-api/src/shared/env/*
 
 # exception files
-accounts-api/src/shared/env/.env.sample
-accounts-api/src/shared/env/.env.test
+Accounts-api/src/shared/env/.env.sample
+Accounts-api/src/shared/env/.env.test
