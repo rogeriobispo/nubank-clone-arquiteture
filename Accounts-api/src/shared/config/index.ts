@@ -52,6 +52,11 @@ const EmailConfig = {
     email: process.env.FROM_EMAIL || 'defaultCompany@campany.com',
   },
 };
+
+const ExternalApi = {
+  authApiBaseUrl: process.env.AUTH_API,
+};
+
 export {
   ServerConfigs,
   RabbitMQConfig,
@@ -59,4 +64,5 @@ export {
   JwtConfig,
   DBConfig,
   EmailConfig,
+  ExternalApi,
 };
