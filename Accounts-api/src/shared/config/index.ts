@@ -25,12 +25,7 @@ const RabbitMQConfig = {
 };
 
 const RabbitMQExchange = {
-  userCreatedExchange: String(process.env.USER_CREATE_EXCHANGE),
-  userUpdatedExchange: String(process.env.USER_UPDATE_EXCHANGE),
-  userBlockedExchange: String(process.env.USER_BLOCKED_EXCHANGE),
-  userUnBlockedExchange: String(process.env.USER_UNBLOCKED_EXCHANGE),
-  userAuthenticatedExchange: String(process.env.USER_AUTHENTICATED_EXCHANGE),
-  senderMailer: String(process.env.SENDER_MAILER),
+  accountCreated: String(process.env.ACCOUNT_API_ACCOUNT_CREATED),
 };
 
 const JwtConfig = {
