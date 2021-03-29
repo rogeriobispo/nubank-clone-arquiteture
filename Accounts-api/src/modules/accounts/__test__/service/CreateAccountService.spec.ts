@@ -1,6 +1,6 @@
 import 'reflect-metadata';
+import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-
 import ICreateAccountDTO from '@modules/accounts/dto/ICreateAccountDto';
 import AppError from '../../../../shared/errors/AppErrors';
 import CreateAccountService from '../../services/createAccountService';
@@ -71,6 +71,14 @@ describe('CreateAccountService', () => {
       accountToCreate,
       currentUser
     );
+
+    const template = path.resolve(
+      __dirname,
+      '..',
+      '..',
+      'views',
+      'accountCreated.hbs'
+    );
     const expected = JSON.stringify({
       from: {
         name: 'rogerbank',
@@ -82,7 +90,7 @@ describe('CreateAccountService', () => {
       },
       subject: 'Conta Criada',
       templateFileContent:
-        '/Users/rogerio/projects/NuBank-ecosistem-clone/Accounts-api/src/modules/accounts/views/accountCreated.hbs',
+      template,
       variables: {
         name: 'John',
         company: 'rogerbank',
