@@ -4,7 +4,8 @@ import authorizedEndPoint from '../../../shared/middlewares/authorizedEndPoint';
 const authorizedRouter = Router();
 
 authorizedRouter.get('/', authorizedEndPoint, (req, res) => {
-  res.send('ok');
+  const { id, email, name } = req.currentUser
+  res.json({id, email, name}).status(200);
 });
 
 export default authorizedRouter;

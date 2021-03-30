@@ -18,6 +18,11 @@ describe('authorized', () => {
       .get('/authorized')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      id: 'klasdkflj', 
+      name: 'jhondoe', 
+      email: 'jhondoe@gmail.com'
+    })
   });
 
   it('when the token is wrong', async () => {

@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import path from 'path';
 import AppError from '../../../../shared/errors/AppErrors';
 import CreateUserService from '../../services/CreateUserService';
 import UserRepositoryMock from '../mocks/UserRepositoryMock';
@@ -81,7 +82,7 @@ describe('CreateUserService', () => {
         },
         subject: 'Bem Vindo',
         templateFileContent:
-          '/Users/rogerio/projects/NuBank-ecosistem-clone/Users-api/src/modules/Users/views/welcome.hbs',
+        path.resolve(__dirname, '..', '..','views', 'welcome.hbs'),
         variables: {
           name: 'JohnDoe3',
           company: 'Default Company',
