@@ -11,8 +11,26 @@ class AccountRepository implements IUserRepository {
     this.ormRepository = getRepository(Account);
   }
 
-  async create(account: ICreateAccountDTO): Promise<Account> {
-    const accountCreated = this.ormRepository.create(account);
+  findByAccountNumber(number: number): Promise<Account | undefined> {
+    return this.ormRepository.findOne({ where: { number } });
+  }
+
+  async create({
+    kind,
+    personKind,
+    userId,
+    address,
+    balance,
+    overdraft,
+  }: ICreateAccountDTO): Promise<Account> {
+    const accountCreated = this.ormRepository.create({
+      kind,
+      personKind,
+      userId,
+      address: JSON.stringify(address),
+      balance,
+      overdraft,
+    });
     await this.ormRepository.save(accountCreated);
     return accountCreated;
   }

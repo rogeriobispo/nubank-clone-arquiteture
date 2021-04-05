@@ -3,6 +3,12 @@ import { Request, Response, NextFunction } from 'express';
 import { ExternalApi } from '../config';
 import AppError from '../errors/AppErrors';
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
 const api = axios.create({
   baseURL: ExternalApi.authApiBaseUrl,
 });
@@ -16,9 +22,16 @@ export default async function authorizedEndPoint(
 
     if (!token) throw new AppError('Unauthorized', 401);
     if (token) {
-      await api.get('/authorized', {
+      const response = await api.get('/authorized', {
         headers: { authorization: token },
       });
+      const user: User = {
+        id: response.data.id,
+        name: response.data.name,
+        email: response.data.email,
+      };
+
+      req.currentUser = user;
     }
     next();
   } catch (error) {

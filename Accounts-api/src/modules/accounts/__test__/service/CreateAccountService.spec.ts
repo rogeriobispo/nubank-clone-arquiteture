@@ -89,8 +89,7 @@ describe('CreateAccountService', () => {
         email: 'john@gmail.com',
       },
       subject: 'Conta Criada',
-      templateFileContent:
-      template,
+      templateFileContent: template,
       variables: {
         name: 'John',
         company: 'rogerbank',

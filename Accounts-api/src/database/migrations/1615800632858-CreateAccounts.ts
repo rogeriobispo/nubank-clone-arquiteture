@@ -18,6 +18,7 @@ export default class CreateAccounts1615800632858 implements MigrationInterface {
             type: 'integer',
             generationStrategy: 'increment',
             isNullable: false,
+            isGenerated: true,
           },
           {
             name: 'kind',
