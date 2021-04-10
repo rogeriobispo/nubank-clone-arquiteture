@@ -82,5 +82,63 @@ describe('Accounts', () => {
       expect(response.status).toEqual(200);
       expect(response.body).toEqual(expectedResponse);
     });
+
+    it('should not create salary juridical account', async () => {
+      const payload = {
+        kind: 'salary',
+        personKind: 'juridical',
+        userId: '5e5fb6a88da347568879cc91a393fcde',
+        address: {
+          cep: '06814210',
+          state: 'SP',
+          city: 'embu das artes',
+          street: 'Argentina',
+          neighborhood: 'Jardim dos moraes',
+          number: '237',
+        },
+        balance: 10.0,
+        overdraft: 11.0,
+      };
+      const response = await request(app)
+        .post('/accounts')
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(payload);
+
+      expect(response.status).toEqual(422);
+      expect(response.body).toEqual({
+        message: 'Juridical cant create savings/salary accounts',
+        status: 'error',
+      });
+    });
+
+    it('should not create savings juridical account', async () => {
+      const payload = {
+        kind: 'savings',
+        personKind: 'juridical',
+        userId: '5e5fb6a88da347568879cc91a393fcde',
+        address: {
+          cep: '06814210',
+          state: 'SP',
+          city: 'embu das artes',
+          street: 'Argentina',
+          neighborhood: 'Jardim dos moraes',
+          number: '237',
+        },
+        balance: 10.0,
+        overdraft: 11.0,
+      };
+      const response = await request(app)
+        .post('/accounts')
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(payload);
+
+      expect(response.status).toEqual(422);
+      expect(response.body).toEqual({
+        message: 'Juridical cant create savings/salary accounts',
+        status: 'error',
+      });
+    });
   });
 });
