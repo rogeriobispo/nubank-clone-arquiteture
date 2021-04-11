@@ -35,7 +35,6 @@ export default async function authorizedEndPoint(
     }
     next();
   } catch (error) {
-    console.log(error);
     throw new AppError('Unauthorized', 401);
   }
 }

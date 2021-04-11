@@ -23,7 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",
     "tsyringe": "^4.4.0",
-    "typeorm": "^0.2.29"
+    "typeorm": "^0.2.29",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.13",

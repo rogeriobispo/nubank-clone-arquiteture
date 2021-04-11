@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import request from 'supertest';
 import { container } from 'tsyringe';
+import { v4 as uuidv4 } from 'uuid';
 import app from '../../../../server/app';
 import CreateAccountService from '../../services/createAccountService';
 import AccountRepositoryMock from '../mocks/AccountRepositoryMock';
@@ -40,7 +41,7 @@ describe('Accounts', () => {
     accountToCreate = {
       kind: 'current',
       personKind: 'phisical',
-      userId: '5e5fb6a88da347568879cc91a393fcde',
+      userId: uuidv4(),
       address: {
         cep: '06814210',
         state: 'SP',
@@ -87,7 +88,7 @@ describe('Accounts', () => {
       const payload = {
         kind: 'salary',
         personKind: 'juridical',
-        userId: '5e5fb6a88da347568879cc91a393fcde',
+        userId: uuidv4(),
         address: {
           cep: '06814210',
           state: 'SP',
@@ -116,7 +117,7 @@ describe('Accounts', () => {
       const payload = {
         kind: 'savings',
         personKind: 'juridical',
-        userId: '5e5fb6a88da347568879cc91a393fcde',
+        userId: uuidv4(),
         address: {
           cep: '06814210',
           state: 'SP',
@@ -138,6 +139,40 @@ describe('Accounts', () => {
       expect(response.body).toEqual({
         message: 'Juridical cant create savings/salary accounts',
         status: 'error',
+      });
+    });
+
+    it('should validade income payload', async () => {
+      const payload = {
+        kind: 'sa',
+        personKind: 's',
+        userId: 'aaaa',
+        balance: 'aaaa',
+        overdraft: 'aaaa',
+      };
+
+      const response = await request(app)
+        .post('/accounts')
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(payload);
+
+      expect(response.status).toEqual(422);
+      expect(response.body).toEqual({
+        status: 'error',
+        message: [
+          'kind must match the following: salary savings current',
+          'personKind must match the following: phisical juridical',
+          'must be a valid uuid ',
+          'balance must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
+          'overdraft must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
+          'address.cep is a required field',
+          'address.state is a required field',
+          'address.city is a required field',
+          'address.street is a required field',
+          'address.neighborhood is a required field',
+          'address.number is a required field',
+        ],
       });
     });
   });
