@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as Yup from 'yup';
 import AppError from '../../../shared/errors/AppErrors';
+import YupResponseFormatter from '../libs/YupResponseFormatter';
 
 export default async (
   req: Request,
@@ -41,7 +42,7 @@ export default async (
   try {
     await schema.validate(req.body, { abortEarly: false });
   } catch (err) {
-    throw new AppError(err.errors, 422);
+    throw new AppError(YupResponseFormatter(err), 422);
   }
 
   next();

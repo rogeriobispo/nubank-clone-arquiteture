@@ -161,17 +161,47 @@ describe('Accounts', () => {
       expect(response.body).toEqual({
         status: 'error',
         message: [
-          'kind must match the following: salary savings current',
-          'personKind must match the following: phisical juridical',
-          'must be a valid uuid ',
-          'balance must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
-          'overdraft must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
-          'address.cep is a required field',
-          'address.state is a required field',
-          'address.city is a required field',
-          'address.street is a required field',
-          'address.neighborhood is a required field',
-          'address.number is a required field',
+          {
+            kind: ['kind must match the following: salary savings current'],
+          },
+          {
+            personKind: [
+              'personKind must match the following: phisical juridical',
+            ],
+          },
+          {
+            userId: ['must be a valid uuid '],
+          },
+          {
+            balance: [
+              'balance must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
+            ],
+          },
+          {
+            overdraft: [
+              'overdraft must be a `number` type, but the final value was: `NaN` (cast from the value `"aaaa"`).',
+            ],
+          },
+          {
+            'address.cep': ['address.cep is a required field'],
+          },
+          {
+            'address.state': ['address.state is a required field'],
+          },
+          {
+            'address.city': ['address.city is a required field'],
+          },
+          {
+            'address.street': ['address.street is a required field'],
+          },
+          {
+            'address.neighborhood': [
+              'address.neighborhood is a required field',
+            ],
+          },
+          {
+            'address.number': ['address.number is a required field'],
+          },
         ],
       });
     });
