@@ -6,11 +6,10 @@ import IAccountRepository from '../Repositories/IAccountRepository';
 import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
 import { RabbitMQExchange, EmailConfig } from '../../../shared/config';
 import Account from '../typeorm/Entities/Account';
-import ICreateAccountDTO from '../dto/ICreateAccountDto';
 import IUserDto from '../dto/IUserDto';
 
 @injectable()
-class CreateAccountService {
+class CreditAccountService {
   constructor(
     @inject('AccountsRepository')
     private accountsRepository: IAccountRepository,
@@ -21,44 +20,49 @@ class CreateAccountService {
   ) {}
 
   public async perform(
-    accountData: ICreateAccountDTO,
+    amount: number,
+    accountID: string,
     user: IUserDto
-  ): Promise<Account> {
-    if (
-      accountData.personKind === 'juridical' &&
-      (accountData.kind === 'savings' || accountData.kind === 'salary')
-    )
-      throw new AppError('Juridical cant create savings/salary accounts');
+  ): Promise<boolean> {
+    if (amount <= 0) throw new AppError('credit should be greater than 0');
 
-    const account = await this.accountsRepository.create(accountData);
+    const result = await this.accountsRepository.credit(accountID, amount);
 
-    this.messageBroker.publish(
-      RabbitMQExchange.accountCreated,
-      JSON.stringify(account)
-    );
+    if (result) {
+      this.messageBroker.publish(
+        RabbitMQExchange.creditAccount,
+        JSON.stringify({ accountID, amount })
+      );
 
-    this.sendAccountCreatedEmail(user, account);
+      this.sendAccountCreditEmail(user, accountID, amount);
+    }
 
-    return account;
+    return result;
   }
 
-  private async sendAccountCreatedEmail(
+  private async sendAccountCreditEmail(
     user: IUserDto,
-    account: Account
+    accountID: string,
+    amount: number
   ): Promise<void> {
+    const account = await this.accountsRepository.findById(accountID);
+
+    if (!account) return;
+
     const { from } = EmailConfig;
 
     const to = { name: user.name, email: user.email };
-    const subject = 'Conta Criada';
+    const subject = 'Credito em conta';
     const template = path.resolve(
       __dirname,
       '..',
       'views',
-      'accountCreated.hbs'
+      'accountCredit.hbs'
     );
     const variables = {
       name: user.name,
       company: from.name,
+      amount,
       kind: account.kind,
       number: account.accountNumber,
       companyEmail: from.email,
@@ -73,4 +77,4 @@ class CreateAccountService {
   }
 }
 
-export default CreateAccountService;
+export default CreditAccountService;

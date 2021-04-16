@@ -5,7 +5,29 @@ import IAccountRepository from '../../Repositories/IAccountRepository';
 
 const accounts: Account[] = [];
 
-class UserRepositoryMock implements IAccountRepository {
+class AccountsRepositoryMock implements IAccountRepository {
+  async credit(accountID: string, amount: number): Promise<boolean> {
+    const account = await this.findById(accountID);
+
+    if (!account) return false;
+
+    account.balance += amount;
+    this.update(account);
+
+    return true;
+  }
+
+  async debit(accountID: string, amount: number): Promise<boolean> {
+    const account = await this.findById(accountID);
+
+    if (!account) return false;
+
+    account.balance -= amount;
+    this.update(account);
+
+    return true;
+  }
+
   async create(accountParams: ICreateAccountDTO): Promise<Account> {
     const account = new Account();
 
@@ -37,4 +59,4 @@ class UserRepositoryMock implements IAccountRepository {
   }
 }
 
-export default UserRepositoryMock;
+export default AccountsRepositoryMock;
