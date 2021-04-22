@@ -28,6 +28,7 @@ const RabbitMQExchange = {
   accountCreated: String(process.env.ACCOUNT_API_ACCOUNT_CREATED),
   senderMailer: String(process.env.SENDER_MAILER),
   creditAccount: String(process.env.ACCOUNT_API_CREDIT_ACCOUNT),
+  debitAccount: String(process.env.ACCOUNT_API_DEBIT_ACCOUNT),
 };
 
 const JwtConfig = {

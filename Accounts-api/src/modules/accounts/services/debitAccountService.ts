@@ -8,7 +8,7 @@ import { RabbitMQExchange, EmailConfig } from '../../../shared/config';
 import IUserDto from '../dto/IUserDto';
 
 @injectable()
-class CreditAccountService {
+class DebitAccountService {
   constructor(
     @inject('AccountsRepository')
     private accountsRepository: IAccountRepository,
@@ -26,12 +26,12 @@ class CreditAccountService {
   ): Promise<boolean> {
     if (amount <= 0) throw new AppError('credit should be greater than 0');
 
-    const result = await this.accountsRepository.credit(accountID, amount);
+    const result = await this.accountsRepository.debit(accountID, amount);
 
     if (!result) throw new AppError('Account not found');
 
     this.messageBroker.publish(
-      RabbitMQExchange.creditAccount,
+      RabbitMQExchange.debitAccount,
       JSON.stringify({ accountID, amount, transactionID, userID: user.id })
     );
 
@@ -39,4 +39,4 @@ class CreditAccountService {
   }
 }
 
-export default CreditAccountService;
+export default DebitAccountService;
