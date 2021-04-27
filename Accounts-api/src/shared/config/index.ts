@@ -57,7 +57,8 @@ const EmailConfig = {
 };
 
 const ExternalApi = {
-  authApiBaseUrl: process.env.AUTH_API,
+  authApiBaseUrl: String(process.env.AUTH_API),
+  transactionBaseUrl: String(process.env.TRANSACTION_API),
 };
 
 export {

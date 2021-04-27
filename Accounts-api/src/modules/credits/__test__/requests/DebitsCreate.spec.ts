@@ -85,7 +85,7 @@ describe('Accounts', () => {
       expect(response.body).toEqual({ debit: true });
     });
 
-    it('should notificate rabbit debit occurred', async () => {
+    it('should notificate rabbit credit occurred', async () => {
       const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
 
       const debitsPayload = {
