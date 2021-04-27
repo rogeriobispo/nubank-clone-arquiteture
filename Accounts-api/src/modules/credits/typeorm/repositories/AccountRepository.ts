@@ -10,7 +10,7 @@ class AccountRepository implements IUserRepository {
     this.ormRepository = getRepository(Account);
   }
 
-  async debit(accountID: string, amount: number): Promise<boolean> {
+  async credit(accountID: string, amount: number): Promise<boolean> {
     const account = await this.ormRepository.findOne({
       where: {
         id: accountID,

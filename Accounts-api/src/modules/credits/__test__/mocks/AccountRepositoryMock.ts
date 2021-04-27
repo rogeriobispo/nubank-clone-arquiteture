@@ -6,7 +6,7 @@ import IAccountRepository from '../../Repositories/IAccountRepository';
 const accounts: Account[] = [];
 
 class AccountsRepositoryMock implements IAccountRepository {
-  async debit(accountID: string, amount: number): Promise<boolean> {
+  async credit(accountID: string, amount: number): Promise<boolean> {
     const account = await this.findById(accountID);
 
     if (!account) return false;

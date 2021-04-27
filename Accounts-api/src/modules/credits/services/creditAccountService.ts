@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+
 import AppError from '../../../shared/errors/AppErrors';
 import IAccountRepository from '../Repositories/IAccountRepository';
 import IMessageBroker from '../../../shared/container/providers/messageBrokerProvider/models/IMessageBrocker';
@@ -6,7 +7,7 @@ import { RabbitMQExchange } from '../../../shared/config';
 import IUserDto from '../dto/IUserDto';
 
 @injectable()
-class DebitAccountService {
+class CreditAccountService {
   constructor(
     @inject('AccountsRepository')
     private accountsRepository: IAccountRepository,
@@ -27,12 +28,12 @@ class DebitAccountService {
     if (account && !account.active)
       throw new AppError('Account not found', 404);
 
-    const result = await this.accountsRepository.debit(accountID, amount);
+    const result = await this.accountsRepository.credit(accountID, amount);
 
-    if (!result) throw new AppError('Account not found', 404);
+    if (!result) throw new AppError('Account not found');
 
     this.messageBroker.publish(
-      RabbitMQExchange.debitAccount,
+      RabbitMQExchange.creditAccount,
       JSON.stringify({ accountID, amount, transactionID, userID: user.id })
     );
 
@@ -40,4 +41,4 @@ class DebitAccountService {
   }
 }
 
-export default DebitAccountService;
+export default CreditAccountService;

@@ -1,16 +1,15 @@
 import 'reflect-metadata';
-import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import ICreateAccountDTO from '@modules/accounts/dto/ICreateAccountDto';
 import AppError from '../../../../shared/errors/AppErrors';
-import CreateAccountService from '../../services/createAccountService';
-import DebitAccountService from '../../services/debitAccountService';
-import AccountRepositoryMock from '../mocks/AccountRepositoryMock';
-import MessageBrokerMock from '../mocks/MessageBrokerMock';
-import RabbitMailerSenderMock from '../mocks/RabbitMailerSenderMock';
+import CreateAccountService from '../../../accounts/services/createAccountService';
+import CreditAccountService from '../../services/creditAccountService';
+import AccountRepositoryMock from '../../../accounts/__test__/mocks/AccountRepositoryMock';
+import MessageBrokerMock from '../../../accounts/__test__/mocks/MessageBrokerMock';
+import RabbitMailerSenderMock from '../../../accounts/__test__/mocks/RabbitMailerSenderMock';
 
 let createAccountService: CreateAccountService;
-let debitAccountService: DebitAccountService;
+let creditAccountService: CreditAccountService;
 let accountRepositoryMOck: AccountRepositoryMock;
 let messageBrokerMock: MessageBrokerMock;
 let rabbitMailerSenderMock: RabbitMailerSenderMock;
@@ -35,19 +34,18 @@ const accountToCreate: ICreateAccountDTO = {
   personKind: 'phisical',
   userId: uuidv4(),
   address,
-  balance: 1000.0,
-  overdraft: 110.0,
+  balance: 10.0,
+  overdraft: 11.0,
 };
 
-describe('CreateAccountService', () => {
+describe('CreditAccountService', () => {
   beforeEach(async () => {
     accountRepositoryMOck = new AccountRepositoryMock();
     messageBrokerMock = new MessageBrokerMock();
     rabbitMailerSenderMock = new RabbitMailerSenderMock(messageBrokerMock);
-    debitAccountService = new DebitAccountService(
+    creditAccountService = new CreditAccountService(
       accountRepositoryMOck,
-      messageBrokerMock,
-      rabbitMailerSenderMock
+      messageBrokerMock
     );
 
     createAccountService = new CreateAccountService(
@@ -57,7 +55,7 @@ describe('CreateAccountService', () => {
     );
   });
 
-  it('should decrease some credit on the account', async () => {
+  it('should add some credit on the account', async () => {
     const transatcion = uuidv4();
 
     const account = await createAccountService.perform(
@@ -65,22 +63,20 @@ describe('CreateAccountService', () => {
       currentUser
     );
 
-    const response = await debitAccountService.perform(
+    const response = await creditAccountService.perform(
       100.0,
       account.id,
       transatcion,
       currentUser
     );
-
     const changedAccount = await accountRepositoryMOck.findById(account.id);
 
     expect(response).toBe(true);
-    expect(changedAccount?.balance).toEqual(900.0);
+    expect(changedAccount?.balance).toEqual(110.0);
   });
 
-  it('should notificate rabbit credit occurred', async () => {
+  it('should not accept negative numbers', async () => {
     const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
-
     const transatcion = uuidv4();
 
     const account = await createAccountService.perform(
@@ -88,7 +84,23 @@ describe('CreateAccountService', () => {
       currentUser
     );
 
-    await debitAccountService.perform(
+    await expect(
+      creditAccountService.perform(-100.0, account.id, transatcion, currentUser)
+    ).rejects.toBeInstanceOf(AppError);
+    expect(brokerSpy).not.toHaveBeenCalledWith('mailerQueue');
+    expect(brokerSpy).not.toHaveBeenCalledWith('ACCOUNT_API_CREDIT_ACCOUNT');
+  });
+
+  it('should notificate rabbit credit occurred', async () => {
+    const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
+    const transatcion = uuidv4();
+
+    const account = await createAccountService.perform(
+      accountToCreate,
+      currentUser
+    );
+
+    await creditAccountService.perform(
       100.0,
       account.id,
       transatcion,
@@ -103,24 +115,29 @@ describe('CreateAccountService', () => {
     });
 
     expect(brokerSpy).toHaveBeenCalledWith(
-      'ACCOUNT_API_DEBIT_ACCOUNT',
+      'ACCOUNT_API_CREDIT_ACCOUNT',
       expected
     );
   });
+
   it('when the account does not exist', async () => {
+    const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
     const transatcion = uuidv4();
 
     await expect(
-      debitAccountService.perform(
+      creditAccountService.perform(
         100.0,
         'bkkhehbjk-khbhha',
         transatcion,
         currentUser
       )
     ).rejects.toBeInstanceOf(AppError);
+
+    expect(brokerSpy).not.toHaveBeenCalledWith('mailerQueue');
+    expect(brokerSpy).not.toHaveBeenCalledWith('ACCOUNT_API_CREDIT_ACCOUNT');
   });
 
-  it('should not accept negative numbers', async () => {
+  it('should not add credit when the account is inactive', async () => {
     const transatcion = uuidv4();
 
     const account = await createAccountService.perform(
@@ -128,8 +145,10 @@ describe('CreateAccountService', () => {
       currentUser
     );
 
+    account.active = false;
+    await accountRepositoryMOck.update(account);
     await expect(
-      debitAccountService.perform(-100.0, account.id, transatcion, currentUser)
+      creditAccountService.perform(100.0, account.id, transatcion, currentUser)
     ).rejects.toBeInstanceOf(AppError);
   });
 });

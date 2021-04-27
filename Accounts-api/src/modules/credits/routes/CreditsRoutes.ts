@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import DebitsController from '../controllers/DebitsController';
+import CreditsController from '../controllers/CreditsController';
 import AuthorizedEndPoint from '../../../shared/middlewares/authorizedEndPoint';
 import validateTransactions from '../../../shared/middlewares/validateTransactions';
 
-const debitsRouter = Router();
+const creditsRouter = Router();
 
-debitsRouter.post(
+creditsRouter.post(
   '/:id/debits',
   AuthorizedEndPoint,
   validateTransactions,
-  DebitsController.create
+  CreditsController.create
 );
 
-export default debitsRouter;
+export default creditsRouter;
