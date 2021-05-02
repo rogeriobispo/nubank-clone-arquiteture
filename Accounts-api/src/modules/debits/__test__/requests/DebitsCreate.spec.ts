@@ -8,29 +8,11 @@ import app from '../../../../server/app';
 import DebitAccountService from '../../services/debitAccountService';
 import AccountRepositoryMock from '../mocks/AccountRepositoryMock';
 import MessageBrockerMock from '../mocks/MessageBrokerMock';
+import { currentUser } from '../../../../__mocks__/axios';
 
 let debitAccountService: DebitAccountService;
 let accountRepositoryMock: AccountRepositoryMock;
 let messageBrokerMock: MessageBrockerMock;
-
-const currentUser = {
-  id: uuidv4(),
-  name: 'John',
-  email: 'john@gmail.com',
-};
-
-jest.mock('../../../../shared/middlewares/authorizedEndPoint', () =>
-  jest.fn((req, res, next) => {
-    req.currentUser = currentUser;
-    next();
-  })
-);
-
-jest.mock('../../../../shared/middlewares/validateTransactions', () =>
-  jest.fn((req, res, next) => {
-    next();
-  })
-);
 
 const address = {
   cep: '06814210',
@@ -163,6 +145,43 @@ describe('Accounts', () => {
         .send(debitsPayload);
 
       expect(response.status).toEqual(404);
+    });
+
+    it('when transaction does not exist', async () => {
+      const transactionID = 'invalid-transaction';
+
+      const debitsPayload = {
+        amount: 100,
+        transactionID,
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/debits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(422);
+    });
+
+    it('when the user is not authorized', async () => {
+      const transactionID = uuidv4();
+
+      const debitsPayload = {
+        amount: 100,
+        transactionID,
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/debits`)
+        .set('Accept', 'application/json')
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(401);
     });
   });
 });
