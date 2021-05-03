@@ -6,10 +6,6 @@ import CepService from '../../services/CepService';
 import CepPromiseMock from '../mocks/CepPromiseMock';
 import CacheProviderMock from '../mocks/CacheProviderMock';
 
-jest.mock('../../../../shared/middlewares/authorizedEndPoint', () =>
-  jest.fn((req, res, next) => next())
-);
-
 let cepService: CepService;
 let cepProvider: CepPromiseMock;
 let cacheProviderMock: CacheProviderMock;
@@ -54,5 +50,13 @@ describe('Address', () => {
         status: 'error',
       });
     });
+
+    it('when the token is not provided', async () => {
+      const response = await request(app)
+        .get('/cep/06814210')
+        .set('Accept', 'application/json')
+      expect(response.status).toEqual(401);
+
+    })
   });
 });
