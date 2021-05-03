@@ -8,7 +8,7 @@ import IUserDto from '../dto/IUserDto';
 @injectable()
 class DebitAccountService {
   constructor(
-    @inject('AccountsRepository')
+    @inject('DebitsAccountsRepository')
     private accountsRepository: IAccountRepository,
     @inject('MessageBroker')
     private messageBroker: IMessageBroker

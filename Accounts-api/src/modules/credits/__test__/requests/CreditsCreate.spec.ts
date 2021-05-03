@@ -8,29 +8,11 @@ import app from '../../../../server/app';
 import CreditAccountService from '../../services/creditAccountService';
 import AccountRepositoryMock from '../mocks/AccountRepositoryMock';
 import MessageBrockerMock from '../mocks/MessageBrokerMock';
+import { currentUser } from '../../../../__mocks__/axios';
 
 let creditAccountService: CreditAccountService;
 let accountRepositoryMock: AccountRepositoryMock;
 let messageBrokerMock: MessageBrockerMock;
-
-const currentUser = {
-  id: uuidv4(),
-  name: 'John',
-  email: 'john@gmail.com',
-};
-
-jest.mock('../../../../shared/middlewares/authorizedEndPoint', () =>
-  jest.fn((req, res, next) => {
-    req.currentUser = currentUser;
-    next();
-  })
-);
-
-jest.mock('../../../../shared/middlewares/validateTransactions', () =>
-  jest.fn((req, res, next) => {
-    next();
-  })
-);
 
 const address = {
   cep: '06814210',
@@ -50,7 +32,7 @@ const accountToCreate: ICreateAccountDTO = {
   overdraft: 110.0,
 };
 
-describe('Accounts', () => {
+describe('creditates accounts', () => {
   beforeEach(() => {
     const containerSpy = jest.spyOn(container, 'resolve');
 
@@ -65,14 +47,141 @@ describe('Accounts', () => {
   });
 
   describe('creditates account', () => {
-    it('should add some credit on the account', async () => {});
+    it('should increase credit on the account', async () => {
+      const transactionID = uuidv4();
 
-    it('should not accept negative numbers', async () => {});
+      const debitsPayload = {
+        amount: 100,
+        transactionID,
+      };
 
-    it('should notificate rabbit credit occurred', async () => {});
+      const account = await accountRepositoryMock.create(accountToCreate);
 
-    it('when the account does not exist', async () => {});
+      const response = await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
 
-    it('should not add credit when the account is inactive', async () => {});
+      expect(response.status).toEqual(200);
+      expect(response.body).toEqual({ credit: true });
+    });
+
+    it('should notificate rabbit credit occurred', async () => {
+      const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
+
+      const debitsPayload = {
+        amount: 100,
+        transactionID: uuidv4(),
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      const expected = JSON.stringify({
+        accountID: account.id,
+        amount: 100,
+        transactionID: debitsPayload.transactionID,
+        userID: currentUser.id,
+      });
+
+      expect(brokerSpy).toHaveBeenCalledWith(
+        'ACCOUNT_API_CREDIT_ACCOUNT',
+        expected
+      );
+    });
+
+    it('when the account does not exist', async () => {
+      const debitsPayload = {
+        amount: 100,
+        transactionID: uuidv4(),
+      };
+
+      const response = await request(app)
+        .post(`/accounts/${uuidv4()}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(404);
+    });
+
+    it('should not accept negative numbers', async () => {
+      const debitsPayload = {
+        amount: -100,
+        transactionID: uuidv4(),
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(422);
+    });
+
+    it('when the account is not active', async () => {
+      const debitsPayload = {
+        amount: 100,
+        transactionID: uuidv4(),
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+      account.active = false;
+      await accountRepositoryMock.update(account);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(404);
+    });
+
+    it('when transaction does not exist', async () => {
+      const transactionID = 'invalid-transaction';
+
+      const debitsPayload = {
+        amount: 100,
+        transactionID,
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer Token`)
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(422);
+    });
+
+    it('when the user is not authorized', async () => {
+      const transactionID = uuidv4();
+
+      const debitsPayload = {
+        amount: 100,
+        transactionID,
+      };
+
+      const account = await accountRepositoryMock.create(accountToCreate);
+
+      const response = await request(app)
+        .post(`/accounts/${account.id}/credits`)
+        .set('Accept', 'application/json')
+        .send(debitsPayload);
+
+      expect(response.status).toEqual(401);
+    });
   });
 });

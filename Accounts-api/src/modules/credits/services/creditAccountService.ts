@@ -9,7 +9,7 @@ import IUserDto from '../dto/IUserDto';
 @injectable()
 class CreditAccountService {
   constructor(
-    @inject('AccountsRepository')
+    @inject('CreditsAccountsRepository')
     private accountsRepository: IAccountRepository,
     @inject('MessageBroker')
     private messageBroker: IMessageBroker
@@ -30,7 +30,7 @@ class CreditAccountService {
 
     const result = await this.accountsRepository.credit(accountID, amount);
 
-    if (!result) throw new AppError('Account not found');
+    if (!result) throw new AppError('Account not found', 404);
 
     this.messageBroker.publish(
       RabbitMQExchange.creditAccount,

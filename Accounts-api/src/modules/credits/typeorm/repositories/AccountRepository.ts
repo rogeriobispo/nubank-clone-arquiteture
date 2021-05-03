@@ -20,7 +20,7 @@ class AccountRepository implements IUserRepository {
 
     if (!account || account.balance < amount) return false;
 
-    account.balance -= amount;
+    account.balance += amount;
 
     this.update(account);
 

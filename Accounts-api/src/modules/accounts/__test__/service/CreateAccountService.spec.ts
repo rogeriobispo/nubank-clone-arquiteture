@@ -9,7 +9,7 @@ import MessageBrokerMock from '../mocks/MessageBrokerMock';
 import RabbitMailerSenderMock from '../mocks/RabbitMailerSenderMock';
 
 let createAccountService: CreateAccountService;
-let accountRepositoryMOck: AccountRepositoryMock;
+let accountRepositoryMock: AccountRepositoryMock;
 let messageBrokerMock: MessageBrokerMock;
 let rabbitMailerSenderMock: RabbitMailerSenderMock;
 
@@ -29,12 +29,12 @@ const currentUser = {
 };
 describe('CreateAccountService', () => {
   beforeEach(() => {
-    accountRepositoryMOck = new AccountRepositoryMock();
+    accountRepositoryMock = new AccountRepositoryMock();
     messageBrokerMock = new MessageBrokerMock();
     rabbitMailerSenderMock = new RabbitMailerSenderMock(messageBrokerMock);
 
     createAccountService = new CreateAccountService(
-      accountRepositoryMOck,
+      accountRepositoryMock,
       messageBrokerMock,
       rabbitMailerSenderMock
     );

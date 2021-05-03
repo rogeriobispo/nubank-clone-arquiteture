@@ -11,40 +11,6 @@ class AccountRepository implements IUserRepository {
     this.ormRepository = getRepository(Account);
   }
 
-  async credit(accountID: string, amount: number): Promise<boolean> {
-    const account = await this.ormRepository.findOne({
-      where: {
-        id: accountID,
-      },
-      lock: { mode: 'pessimistic_write' },
-    });
-
-    if (!account) return false;
-
-    account.balance += amount;
-
-    this.update(account);
-
-    return true;
-  }
-
-  async debit(accountID: string, amount: number): Promise<boolean> {
-    const account = await this.ormRepository.findOne({
-      where: {
-        id: accountID,
-      },
-      lock: { mode: 'pessimistic_write' },
-    });
-
-    if (!account || account.balance < amount) return false;
-
-    account.balance -= amount;
-
-    this.update(account);
-
-    return true;
-  }
-
   findByAccountNumber(number: number): Promise<Account | undefined> {
     return this.ormRepository.findOne({ where: { number } });
   }

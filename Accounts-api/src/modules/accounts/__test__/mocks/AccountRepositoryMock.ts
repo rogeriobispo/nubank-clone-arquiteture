@@ -6,28 +6,6 @@ import IAccountRepository from '../../Repositories/IAccountRepository';
 const accounts: Account[] = [];
 
 class AccountsRepositoryMock implements IAccountRepository {
-  async credit(accountID: string, amount: number): Promise<boolean> {
-    const account = await this.findById(accountID);
-
-    if (!account) return false;
-
-    account.balance += amount;
-    this.update(account);
-
-    return true;
-  }
-
-  async debit(accountID: string, amount: number): Promise<boolean> {
-    const account = await this.findById(accountID);
-
-    if (!account) return false;
-
-    account.balance -= amount;
-    this.update(account);
-
-    return true;
-  }
-
   async create(accountParams: ICreateAccountDTO): Promise<Account> {
     const account = new Account();
 
@@ -36,26 +14,6 @@ class AccountsRepositoryMock implements IAccountRepository {
     accounts.push(account);
 
     return account;
-  }
-
-  async update(account: Account): Promise<Account> {
-    const index = accounts.findIndex(
-      (accountDB) => accountDB.id === account.id
-    );
-    accounts.splice(index, 1, account);
-    return accounts[index];
-  }
-
-  async findByUserId(userId: string): Promise<Account | undefined> {
-    return accounts.filter((account) => account.userId === userId)[0];
-  }
-
-  async findById(id: string): Promise<Account | undefined> {
-    return accounts.filter((account) => account.id === id)[0];
-  }
-
-  async findByAccountNumber(number: number): Promise<Account | undefined> {
-    return accounts.filter((account) => account.accountNumber === number)[0];
   }
 }
 

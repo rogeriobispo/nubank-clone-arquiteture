@@ -6,7 +6,7 @@ import validateTransactions from '../../../shared/middlewares/validateTransactio
 const creditsRouter = Router();
 
 creditsRouter.post(
-  '/:id/debits',
+  '/:id/credits',
   AuthorizedEndPoint,
   validateTransactions,
   CreditsController.create

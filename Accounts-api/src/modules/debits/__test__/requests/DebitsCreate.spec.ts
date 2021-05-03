@@ -32,7 +32,7 @@ const accountToCreate: ICreateAccountDTO = {
   overdraft: 110.0,
 };
 
-describe('Accounts', () => {
+describe('Debitates accounts', () => {
   beforeEach(() => {
     const containerSpy = jest.spyOn(container, 'resolve');
 

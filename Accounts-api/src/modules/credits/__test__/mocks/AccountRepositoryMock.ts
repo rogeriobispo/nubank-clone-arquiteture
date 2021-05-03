@@ -11,7 +11,7 @@ class AccountsRepositoryMock implements IAccountRepository {
 
     if (!account) return false;
 
-    account.balance -= amount;
+    account.balance += amount;
     this.update(account);
 
     return true;

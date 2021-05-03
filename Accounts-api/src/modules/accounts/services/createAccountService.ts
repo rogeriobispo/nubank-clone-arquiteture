@@ -12,7 +12,7 @@ import IUserDto from '../dto/IUserDto';
 @injectable()
 class CreateAccountService {
   constructor(
-    @inject('AccountsRepository')
+    @inject('AccountsRepositoryCreate')
     private accountsRepository: IAccountRepository,
     @inject('MessageBroker')
     private messageBroker: IMessageBroker,

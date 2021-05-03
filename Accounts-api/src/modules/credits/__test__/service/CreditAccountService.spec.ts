@@ -1,18 +1,14 @@
 import 'reflect-metadata';
 import { v4 as uuidv4 } from 'uuid';
-import ICreateAccountDTO from '@modules/accounts/dto/ICreateAccountDto';
+import ICreateAccountDTO from '../mocks/ICreateAccountMockDto';
 import AppError from '../../../../shared/errors/AppErrors';
-import CreateAccountService from '../../../accounts/services/createAccountService';
 import CreditAccountService from '../../services/creditAccountService';
-import AccountRepositoryMock from '../../../accounts/__test__/mocks/AccountRepositoryMock';
-import MessageBrokerMock from '../../../accounts/__test__/mocks/MessageBrokerMock';
-import RabbitMailerSenderMock from '../../../accounts/__test__/mocks/RabbitMailerSenderMock';
+import AccountRepositoryMock from '../mocks/AccountRepositoryMock';
+import MessageBrokerMock from '../mocks/MessageBrokerMock';
 
-let createAccountService: CreateAccountService;
 let creditAccountService: CreditAccountService;
-let accountRepositoryMOck: AccountRepositoryMock;
+let accountRepositoryMock: AccountRepositoryMock;
 let messageBrokerMock: MessageBrokerMock;
-let rabbitMailerSenderMock: RabbitMailerSenderMock;
 
 const currentUser = {
   id: uuidv4(),
@@ -40,28 +36,18 @@ const accountToCreate: ICreateAccountDTO = {
 
 describe('CreditAccountService', () => {
   beforeEach(async () => {
-    accountRepositoryMOck = new AccountRepositoryMock();
+    accountRepositoryMock = new AccountRepositoryMock();
     messageBrokerMock = new MessageBrokerMock();
-    rabbitMailerSenderMock = new RabbitMailerSenderMock(messageBrokerMock);
     creditAccountService = new CreditAccountService(
-      accountRepositoryMOck,
+      accountRepositoryMock,
       messageBrokerMock
-    );
-
-    createAccountService = new CreateAccountService(
-      accountRepositoryMOck,
-      messageBrokerMock,
-      rabbitMailerSenderMock
     );
   });
 
   it('should add some credit on the account', async () => {
     const transatcion = uuidv4();
 
-    const account = await createAccountService.perform(
-      accountToCreate,
-      currentUser
-    );
+    const account = await accountRepositoryMock.create(accountToCreate);
 
     const response = await creditAccountService.perform(
       100.0,
@@ -69,7 +55,7 @@ describe('CreditAccountService', () => {
       transatcion,
       currentUser
     );
-    const changedAccount = await accountRepositoryMOck.findById(account.id);
+    const changedAccount = await accountRepositoryMock.findById(account.id);
 
     expect(response).toBe(true);
     expect(changedAccount?.balance).toEqual(110.0);
@@ -79,10 +65,7 @@ describe('CreditAccountService', () => {
     const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
     const transatcion = uuidv4();
 
-    const account = await createAccountService.perform(
-      accountToCreate,
-      currentUser
-    );
+    const account = await accountRepositoryMock.create(accountToCreate);
 
     await expect(
       creditAccountService.perform(-100.0, account.id, transatcion, currentUser)
@@ -95,10 +78,7 @@ describe('CreditAccountService', () => {
     const brokerSpy = jest.spyOn(messageBrokerMock, 'publish');
     const transatcion = uuidv4();
 
-    const account = await createAccountService.perform(
-      accountToCreate,
-      currentUser
-    );
+    const account = await accountRepositoryMock.create(accountToCreate);
 
     await creditAccountService.perform(
       100.0,
@@ -140,13 +120,10 @@ describe('CreditAccountService', () => {
   it('should not add credit when the account is inactive', async () => {
     const transatcion = uuidv4();
 
-    const account = await createAccountService.perform(
-      accountToCreate,
-      currentUser
-    );
+    const account = await accountRepositoryMock.create(accountToCreate);
 
     account.active = false;
-    await accountRepositoryMOck.update(account);
+    await accountRepositoryMock.update(account);
     await expect(
       creditAccountService.perform(100.0, account.id, transatcion, currentUser)
     ).rejects.toBeInstanceOf(AppError);
