@@ -1,0 +1,31 @@
+FROM node:14.15.1-alpine
+WORKDIR /app
+ADD . /app
+RUN npm install
+RUN npm run build
+
+FROM node:14.15.1-alpine
+ENV NODE_ENV production
+ENV PORT 2000
+
+ENV RABBIT_HOST 192.168.0.103
+ENV RABBIT_PORT 5672
+ENV RABBIT_VHOST desenvolvimento
+ENV RABBIT_USER guest
+ENV RABBIT_PWD guest
+
+ENV DB_HOST 192.168.0.103
+ENV DB_PORT 5432
+ENV DB_USER postgres
+ENV DB_PWD postgres
+ENV DB_DATABASE accounts_api_${NODE_ENV}
+
+WORKDIR /app
+COPY --from=0 /app/build ./accounts-api
+RUN cd accounts-api && npm install --only=production
+WORKDIR /app/accounts-api
+RUN cp src/shared/env/.env.sample src/shared/env/.env.${NODE_ENV}
+RUN npm run typeorm:prod migration:run
+EXPOSE ${PORT}
+CMD npm run server-prod
+
