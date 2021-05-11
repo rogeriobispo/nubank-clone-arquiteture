@@ -1,11 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
+const originAccount = uuidv4();
+const destinyAccount = uuidv4();
+
 interface AxiosRequestConfig {
   headers?: any;
 }
 interface Axios {
   get: (url: string, config: AxiosRequestConfig) => void;
-  post: (url: string) => void;
 }
 
 const currentUser = {
@@ -19,6 +21,7 @@ const successAuthorization = {
     ...currentUser,
   },
 };
+
 const create = (): Axios => {
   return {
     get(url: string, config: AxiosRequestConfig) {
@@ -28,19 +31,11 @@ const create = (): Axios => {
 
       return successAuthorization;
     },
-
-    post(url: string) {
-      if (url.includes('invalid-transaction')) {
-        throw new Error('transaction not found');
-      }
-
-      return true;
-    },
   };
 };
 const mockedAxios = {
   create,
 };
 
-export { currentUser };
+export { currentUser, Axios, originAccount, destinyAccount };
 export default mockedAxios;

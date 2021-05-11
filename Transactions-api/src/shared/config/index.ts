@@ -25,10 +25,10 @@ const RabbitMQConfig = {
 };
 
 const RabbitMQExchange = {
-  accountCreated: String(process.env.ACCOUNT_API_ACCOUNT_CREATED),
+  internalPendingDebitCreditCreated: String(
+    process.env.TRANSACTION_API_INTERNAL_PENDING_DEBIT_CREDIT_CREATED
+  ),
   senderMailer: String(process.env.SENDER_MAILER),
-  creditAccount: String(process.env.ACCOUNT_API_CREDIT_ACCOUNT),
-  debitAccount: String(process.env.ACCOUNT_API_DEBIT_ACCOUNT),
 };
 
 const JwtConfig = {
@@ -58,7 +58,7 @@ const EmailConfig = {
 
 const ExternalApi = {
   authApiBaseUrl: String(process.env.AUTH_API),
-  transactionBaseUrl: String(process.env.TRANSACTION_API),
+  accountsApiBaseUrl: String(process.env.ACCOUNTS_API),
 };
 
 export {

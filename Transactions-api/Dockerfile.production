@@ -18,12 +18,12 @@ ENV DB_HOST 192.168.0.103
 ENV DB_PORT 5432
 ENV DB_USER postgres
 ENV DB_PWD postgres
-ENV DB_DATABASE accounts_api_${NODE_ENV}
+ENV DB_DATABASE transactions_api_${NODE_ENV}
 
 WORKDIR /app
-COPY --from=0 /app/build ./accounts-api
+COPY --from=0 /app/build ./transactions-api
 RUN cd accounts-api && npm install --only=production
-WORKDIR /app/accounts-api
+WORKDIR /app/transactions-api
 RUN cp src/shared/env/.env.sample src/shared/env/.env.${NODE_ENV}
 RUN npm run typeorm:prod migration:run
 EXPOSE ${PORT}
