@@ -47,6 +47,10 @@ export default class transactions1620118501778 implements MigrationInterface {
             name: 'status',
             type: 'varchar',
           },
+          {
+            name: 'amount',
+            type: 'decimal',
+          },
         ],
       })
     );

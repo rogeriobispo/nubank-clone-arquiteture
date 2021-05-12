@@ -25,8 +25,8 @@ const RabbitMQConfig = {
 };
 
 const RabbitMQExchange = {
-  internalPendingDebitCreditCreated: String(
-    process.env.TRANSACTION_API_INTERNAL_PENDING_DEBIT_CREDIT_CREATED
+  tefPendingDebitCreditCreated: String(
+    process.env.TRANSACTION_API_TEF_PENDING_DEBIT_CREDIT_CREATED
   ),
   senderMailer: String(process.env.SENDER_MAILER),
 };
@@ -58,7 +58,6 @@ const EmailConfig = {
 
 const ExternalApi = {
   authApiBaseUrl: String(process.env.AUTH_API),
-  accountsApiBaseUrl: String(process.env.ACCOUNTS_API),
 };
 
 export {

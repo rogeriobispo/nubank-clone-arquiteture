@@ -19,12 +19,12 @@ export default async function authorizedEndPoint(
 ): Promise<void> {
   try {
     const token = req.headers?.authorization;
-
     if (!token) throw new AppError('Unauthorized', 401);
     if (token) {
       const response = await api.get('/authorized', {
         headers: { authorization: token },
       });
+
       const user: User = {
         id: response.data.id,
         name: response.data.name,
@@ -35,6 +35,7 @@ export default async function authorizedEndPoint(
     }
     next();
   } catch (error) {
+    console.log(error);
     throw new AppError('Unauthorized', 401);
   }
 }
